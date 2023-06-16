@@ -1,0 +1,23 @@
+.header{
+    background-color: rgb(0,162,232);
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+.header h1{
+    display: inline;
+    margin-left: 5px;
+    color: rgb(255,127,39);
+}
+.header h2, h3{
+    display: inline;
+    margin-left: 30px;
+    color: white;
+}
+.header .logIn-link {
+    margin-left: 1100px;
+    text-decoration: underline;
+}
+
+.header .navBar li{
+    display: inline;
+}
