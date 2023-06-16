@@ -1,8 +1,7 @@
 import { create } from "zustand";
 
 
-const useTours = create(    
-    set => ({
+const useTours = create(set => ({
         maxId: 100,
         tours: [
             {
@@ -134,8 +133,7 @@ const useTours = create(
             
             return {tours: [...state.tours.slice(0, idx), newItem, ...state.tours.slice(idx+1)]};
         }),
-    })
-)
+}))
 
 const useFilter = create(set => ({
     searchTerm: '',
@@ -169,4 +167,47 @@ const useFilter = create(set => ({
     setMaxPriceFilter: (maxPriceFilter) => set({maxPriceFilter})    
 }))
 
-export {useTours, useFilter};
+const useUsers = create(set=>({
+    autorizedUser: {
+        user_id: ''
+    },
+    users: [
+        {
+            id: 1,
+            name: 'Дмитро',
+            surname: 'Князєв',
+            patronymic: 'Ігорович',
+            login: 'DimKniaz',
+            email: 'dimkniazz@gmail.com',
+            password: 'dimkniaz2002',
+            phone: '0993579040',
+            role: 'admin'
+        },
+        {
+            id: 2,
+            name: 'Александра',
+            surname: 'Анікіна',
+            patronymic: 'Генадіївна',
+            login: 'PersikoveMorozyvo',
+            email: 'dimkniazz@gmail.com',
+            password: 'dimkniaz2002',
+            phone: '0993579041',
+            role: 'client'
+        },
+        {
+            id: 3,
+            name: 'Арсеній',
+            surname: 'Гогін',
+            patronymic: 'Андрійович',
+            login: 'GoginArs',
+            email: 'dimkniazz@gmail.com',
+            password: 'dimkniaz2002',
+            phone: '0993579041',
+            role: 'client'
+        }
+
+    ],
+    autorizeUser: (autorizedUser) => set({autorizedUser})
+}))
+
+export {useTours, useFilter, useUsers};

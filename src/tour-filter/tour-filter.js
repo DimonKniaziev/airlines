@@ -1,14 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { useFilter } from "../store";
 import "./tour-filter.css";
 
 
-const TourFilter = () => {
-    const [x0, setX0] = useState(true);
-    const [x1, setX1] = useState(true);
-    const [x2, setX2] = useState(true);
-    const [x3, setX3] = useState(true);
-    const [x4, setX4] = useState(true);
+const TourFilter = () => {    
     const countryFilter = useFilter((state) => state.countryFilter);
     const startDateFilter = useFilter((state) => state.startDateFilter);
     const tourDurationFilter = useFilter((state) => state.tourDurationFilter);
@@ -43,17 +38,6 @@ const TourFilter = () => {
     const onSetTourDurationFilter = (e) => {
         setTourDurationFilter(e.target.value);
     }
-    // const onSetStarsFilter = (e) => {
-    //     let newStarsFilter = starsFilter;        
-    //     newStarsFilter[e.target.value] = !newStarsFilter[e.target.value];        
-    //     setStarsFilter(newStarsFilter);
-    //     setX0(newStarsFilter[0]);
-    //     setX1(newStarsFilter[1]);
-    //     setX2(newStarsFilter[2]);
-    //     setX3(newStarsFilter[3]);
-    //     setX4(newStarsFilter[4]);
-    //     console.log(newStarsFilter);
-    // }
     const onSetStarsFilter1 = (e) => {
         setStarsFilter1(!starsFilter1);
     }
