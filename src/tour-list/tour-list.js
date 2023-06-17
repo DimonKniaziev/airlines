@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import TourListItem from "../tour-list-item";
 import { useTours, useFilter } from "../store";
 import "./tour-list.css"
@@ -63,7 +64,7 @@ const TourList = () => {
 
     const visibleItems = filter(search(tours, searchterm));
 
-    const onOpenDetails = (id) => {
+    const onOpenDetails = (id) => {        
         console.log(id);
     }
     if (visibleItems.length < 1) {
@@ -73,8 +74,10 @@ const TourList = () => {
         const tourItems = visibleItems.map((item) => {
             const {id, ...itemProps} = item;
           
-            return (           
-                <TourListItem {...itemProps} key={id} placesNeed={placesNeedFilter} onOpenDetails={() => onOpenDetails(id)}/> 
+            return (
+                <Link to={`/tour-details?id=${id}`}>
+                    <TourListItem {...itemProps} key={id} placesNeed={placesNeedFilter}/>
+                </Link>                 
             );
         });
         return (

@@ -1,0 +1,207 @@
+.tour-details-container {
+    display: flex;
+    justify-content: center;
+}
+.tour-info {
+    margin-top: 10px;
+    display: flex;
+    justify-content: stretch;    
+    align-items: end;
+}
+
+.tour-details img {
+    border-width: 5px;
+    border: solid;
+    border-color: rgb(127,127,127);
+    height: 130px;
+    margin-bottom: auto;
+}
+
+.tour-details-info-container {
+    padding-left: 5px;
+    margin-bottom: auto;
+}
+
+.tour-details-info-name-container {    
+    
+}
+
+.tour-details-info-name {
+    font-size: 25px;
+    font-weight: bold;
+    color: rgb(127,127,127);
+    margin-right: 5px;
+}
+
+.tour-details-info-stars {
+    font-size: 25px;
+    font-weight: bold;
+    color: rgb(0,162,232);
+    margin-right: 0px;
+}
+
+.tour-details-info-location-container {
+    font-size: 20px;
+    color: rgb(0,162,232);
+}
+
+.tour-details-info-description-container {
+    margin-top: 5px;
+    max-width: 600px;
+}
+
+.tour-details-info-description {
+    color: rgb(127,127,127);
+    font-weight: bold;
+}
+
+.tour-details-order {
+    color: rgb(127,127,127);
+    margin-top: 10px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    border: solid;
+    border-color: rgb(0,162,232);
+    background-color: rgb(247,247,247);
+}
+
+.tour-details-order-table table{
+    font-size: 20px;
+    background-color: rgb(127,127,127);
+    margin: 10px;
+}
+
+.tour-details-order-table td{
+    border: solid;
+    border-width: 1px;
+    border-color: rgb(127,127,127);  
+    background-color: white;
+    padding: 8px;
+}
+
+.tour-details-order-table .td1 {
+    background-color: rgb(234,234,234);
+}
+
+.tour-details-order-table .td2 {
+    width: 400px;
+}
+
+.tour-details-order-table .td3 input{
+    color: rgb(127,127,127);
+    background-color: white;
+    cursor: pointer;
+    border: 0;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.tour-details-order-price-button-container{
+    margin: 10px;
+}
+
+.tour-details-order-price-button-container h2{
+    margin: 0;
+}
+
+.tour-details-order-price span, h2{
+    display: flex;
+    justify-content: center;
+}
+
+.tour-details-order-price h2{
+    color: rgb(0,162,232);    
+    font-weight:normal;
+}
+
+.tour-details-order-button {
+    background-color: rgb(255,127,39);
+    padding: 10px;
+    margin-top: 10px;
+    color: white;
+    cursor: pointer;
+    font-weight: bolder;
+}
+
+.modal-window-container {
+    position: fixed;
+    width: 100%;
+    background-color: rgba(0,0,0,0.2);
+    height: 100%;
+    z-index: 1;
+}
+
+.modal-window {
+    color: white;
+    border-width: 5px;
+    border: solid;
+    border-color: rgb(0,162,232);
+    font-weight: bold;
+    width: 250px;
+    margin: auto;
+    background-color: white;
+    margin-top: 180px;
+}
+
+#transport-modal-radio-container{
+    color: rgb(127,127,127);
+    display: flex;
+    margin-top: 5px;
+}
+
+#transport-modal-radio-container input{
+    display: inline;
+    margin: 0;
+    height: 20px;
+    width: 20px;
+    margin-right: 5px;
+    margin-left: 5px;
+  }
+
+.modal-window-top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    background-color: rgb(0,162,232);
+}
+
+.close-modal-window-button {
+    cursor: pointer;
+}
+
+.modal-window input {
+    justify-self: center;
+    font-size: 25px;
+    margin: auto;
+    border: solid;
+    border-width: 5px;
+    font-weight: bold;
+    border-color: rgb(127,127,127);
+    color: rgb(127,127,127);
+    display: flex;
+}
+
+.places-modal-window input{
+    width: 50px;
+}
+
+.modal-window span {
+    margin: 5px;
+    display: flex;
+    justify-content: center;
+}
+
+#modal-window-submit{
+    background-color: rgb(255,127,39);    
+    cursor: pointer;
+    width: 100px;
+    padding: 8px;
+    margin: auto;
+    border: none;
+    margin-top: 10px;
+    color: white;
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 5px;
+}

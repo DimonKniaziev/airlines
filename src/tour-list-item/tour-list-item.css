@@ -11,7 +11,7 @@
     align-items: end;
 }
 
-img{
+.tour-list-item img{
     height: 130px;
     width: 233px;
 }

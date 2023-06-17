@@ -5,3 +5,7 @@
     overflow:scroll;
     overflow-x:hidden;
 }
+
+.tour-list a {
+    text-decoration: none;
+}
