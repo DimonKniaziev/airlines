@@ -1,0 +1,72 @@
+.user-details-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.user-details-header{
+    margin: 30px;
+    margin-top: 30px
+}
+
+.user-details-header .country-name, .logout-link{
+    color: rgb(0,162,232);
+    margin: 10px;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.user-details-header h1{
+    font-size: 35px;
+    display: inline;
+    color: rgb(255,127,39);
+}
+
+.user-details h3{
+    color: rgb(127,127,127);
+    margin: 10px;
+}
+
+.user-details-row {
+    display: flex;
+    justify-content: center;
+}
+
+.user-details-row input {
+    width: 200px;
+}
+
+.user-details-field-container{
+    color: rgb(127,127,127);
+    font-size: 20px;
+    font-weight: bold;
+    margin: 10px;
+    margin-top: 0;
+}
+.user-details-field-container input{
+    border: solid;
+    border-width: 5px;
+    border-color: rgb(127,127,127);
+    color: rgb(127,127,127);
+    font-size: 20px;
+    font-weight: bold;
+    padding: 3px;
+}
+
+.user-details .submit-button-container {
+    display: flex;
+    justify-content: center;
+}
+
+#user-details-submit-button{
+    background-color: rgb(255,127,39);    
+    cursor: pointer;
+    border: none;
+    margin-top: 10px;
+    color: white;
+    font-size: 30px;
+    height: 45px;
+    width: 240px;
+    font-weight: bold;
+}

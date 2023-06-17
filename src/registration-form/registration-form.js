@@ -10,10 +10,10 @@ const RegistrationForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [phone, setPhone] = useState('');
+  const [date, setDate] = useState('');
 
   const users = useUsers(state => state.users);
   const addUser = useUsers(state => state.addUser);
-  const autorizeUser = useUsers(state => state.autorizeUser);
 
   const onSurnameChange = (e) => {
     setSurname(e.target.value);
@@ -36,6 +36,9 @@ const RegistrationForm = () => {
   const onPhoneChange = (e) => {
     setPhone(e.target.value);
   };
+  const onDateChange = (e) => {
+    setDate(e.target.value);
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -46,13 +49,17 @@ const RegistrationForm = () => {
       login,
       email,
       password,
-      phone
+      phone,
+      date
     };
 
+    const existLogin = users.find(user => user.login === newUser.login);
     const existEmail = users.find(user => user.email === newUser.email);
     const existPhone = users.find(user => user.phone === newUser.phone);
-
-    if (existEmail) {
+    if (existLogin) {
+      alert('Вказаний логін вже зайнятий');
+    }
+    else if (existEmail) {
       alert('Вказана електрона пошта вже зареєстрована');
     }
     else if (existPhone) {
@@ -81,6 +88,8 @@ const RegistrationForm = () => {
       <input type="password" required={true} minLength={8} value={password} onChange={onPasswordChange}/><br/>
       <span>Номер телефону</span><br/>
       <input type="tel" required={true} pattern="[0-9]{10}" value={phone} onChange={onPhoneChange}/><br/>
+      <span>Номер телефону</span><br/>
+      <input type="date" required={true} value={date} onChange={onDateChange}/><br/>
       <input type="submit" value="РЕЄСТРАЦІЯ" id="submit-button"/>   
     </form>
   );

@@ -11,7 +11,7 @@ const Header = () => {
         if (autorizedUser.id) {
             loginLink = (
                 <h3 className="logIn-link">
-                    <Link to="/login">{users.find(user => user.id === autorizedUser.id).login}</Link>
+                    <Link to="/user-details">{users.find(user => user.id === autorizedUser.id).login}</Link>
                 </h3>
             );
         }

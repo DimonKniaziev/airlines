@@ -68,7 +68,18 @@ const TourList = () => {
         console.log(id);
     }
     if (visibleItems.length < 1) {
-        return <h1>Жодного туру не знайдено</h1>
+        return (
+            <div className="no-tours-message-container">
+                <div>
+                    <h1>
+                        Жодного туру не знайдено
+                    </h1>
+                    <h3>
+                        Спробуйте змінити параметри пошуку, наприклад тип транспорту.
+                    </h3> 
+                </div>
+            </div>                  
+        );
     }
     else {
         const tourItems = visibleItems.map((item) => {

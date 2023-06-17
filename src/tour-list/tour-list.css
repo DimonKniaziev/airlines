@@ -9,3 +9,24 @@
 .tour-list a {
     text-decoration: none;
 }
+
+.no-tours-message-container {
+    width: 100%;    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.no-tours-message-container div {    
+    background-color: rgb(244,217,216);
+}
+
+.no-tours-message-container h1 {
+    display: flex;
+    justify-content: center;
+}
+
+.no-tours-message-container h3 {
+    display: flex;
+    justify-content: center;
+}

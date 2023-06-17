@@ -179,35 +179,38 @@ const useUsers = create(set=>({
     users: [
         {
             id: 1,
-            name: 'Дмитро',
             surname: 'Князєв',
+            name: 'Дмитро',            
             patronymic: 'Ігорович',
             login: 'DimKniaz',
             email: 'dimkniazz@gmail.com',
             password: 'dimkniaz2002',
             phone: '0993579040',
+            date: '2002-03-05',
             role: 'admin'
         },
         {
             id: 2,
-            name: 'Александра',
             surname: 'Анікіна',
+            name: 'Александра',            
             patronymic: 'Генадіївна',
             login: 'PersikoveMorozyvo',
             email: 'dimkniazz@gmail.com',
             password: 'dimkniaz2002',
             phone: '0993579041',
+            date: '2003-04-04',
             role: 'client'
         },
         {
             id: 3,
-            name: 'Арсеній',
             surname: 'Гогін',
+            name: 'Арсеній',            
             patronymic: 'Андрійович',
             login: 'GoginArs',
             email: 'dimkniazz@gmail.com',
             password: 'dimkniaz2002',
             phone: '0993579041',
+            date: '2002-03-28',
             role: 'client'
         }
     ],
@@ -215,9 +218,16 @@ const useUsers = create(set=>({
     autorizeUser: (autorizedUser) => set({autorizedUser}),
 
     addUser: (newUser) => set(state => {
-        const user = {...newUser, id: state.maxId, role: 'user'};
-
-        return {users: [...state.users, user], maxId: state.maxId + 1, autorizedUser: {login: user.login, password: user.password, id: user.id}};
+        if (newUser.id) {
+            const idx = state.users.findIndex((el) => el.id === newUser.id);
+            const oldItem = state.users[idx];
+            const newItem = {...oldItem, ...newUser};
+            return {users: [...state.users.slice(0, idx), newItem, ...state.users.slice(idx+1)]}
+        }
+        else {
+            const user = {id: state.maxId, ...newUser,role: 'user'};
+            return {users: [...state.users, user], maxId: state.maxId + 1, autorizedUser: {login: user.login, password: user.password, id: user.id}};
+        }        
     })
 }))
 
