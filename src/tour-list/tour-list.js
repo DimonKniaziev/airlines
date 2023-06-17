@@ -75,8 +75,8 @@ const TourList = () => {
             const {id, ...itemProps} = item;
           
             return (
-                <Link to={`/tour-details?id=${id}`}>
-                    <TourListItem {...itemProps} key={id} placesNeed={placesNeedFilter}/>
+                <Link to={`/tour-details?id=${id}`} key={id}>
+                    <TourListItem {...itemProps} placesNeed={placesNeedFilter}/>
                 </Link>                 
             );
         });

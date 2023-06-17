@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 
 const useTours = create(set => ({
-        maxId: 100,
+        maxId: 10000,
         tours: [
             {
                 id: 1,
@@ -136,15 +136,7 @@ const useTours = create(set => ({
                 image_id: 11,
                 description: "Готель складається з 4 будівель, розташований в курортному селищі Фаліракі, за 1,5 км від пляжу (надається трансфер 1 раз на годину). Підходить для бюджетного сімейного відпочинку та молоді."
             },
-        ],
-
-        bookTour: (itemId) => set(state => {
-            const idx = state.tours.findIndex((el) => el.id === itemId);
-            const oldItem = state.tours[idx];
-            const newItem = {...oldItem, freePlaces: oldItem.freePlaces-1, bookedPlaces: oldItem.bookedPlaces+1};
-            
-            return {tours: [...state.tours.slice(0, idx), newItem, ...state.tours.slice(idx+1)]};
-        }),
+        ]
 }))
 
 const useFilter = create(set => ({
@@ -180,6 +172,7 @@ const useFilter = create(set => ({
 }))
 
 const useUsers = create(set=>({
+    maxId: 1000,
     autorizedUser: {
         user_id: ''
     },
@@ -217,9 +210,15 @@ const useUsers = create(set=>({
             phone: '0993579041',
             role: 'client'
         }
-
     ],
-    autorizeUser: (autorizedUser) => set({autorizedUser})
+
+    autorizeUser: (autorizedUser) => set({autorizedUser}),
+
+    addUser: (newUser) => set(state => {
+        const user = {...newUser, id: state.maxId, role: 'user'};
+
+        return {users: [...state.users, user], maxId: state.maxId + 1, autorizedUser: {login: user.login, password: user.password, id: user.id}};
+    })
 }))
 
 export {useTours, useFilter, useUsers};

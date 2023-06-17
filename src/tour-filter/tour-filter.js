@@ -126,15 +126,15 @@ const TourFilter = () => {
                 <span>Транспорт</span>
             </div>
             <div id="filter-radio-container">
-                <input type="radio" id="radioAirPlane" name="transport" value="Літак" onClick={onSetTransportFilter}/>
+                <input type="radio" id="radioAirPlane" name="transport" value="Літак" onChange={onSetTransportFilter}/>
                 <label htmlFor="radioAirPlane">Літак</label>
             </div>
             <div id="filter-radio-container">
-                <input type="radio" id="radioBus" name="transport" value="Автобус" onClick={onSetTransportFilter}/>
+                <input type="radio" id="radioBus" name="transport" value="Автобус" onChange={onSetTransportFilter}/>
                 <label htmlFor="radioBus">Автобус</label>
             </div>
             <div id="filter-radio-container">
-                <input type="radio" id="radioNoTransport" name="transport" value="Без Транспорту" onClick={onSetTransportFilter}/>
+                <input type="radio" id="radioNoTransport" name="transport" value="Без Транспорту" onChange={onSetTransportFilter}/>
                 <label htmlFor="radioNoTransport">Без Транспорту</label>
             </div>
             <div className="filter-row-container">

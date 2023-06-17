@@ -20,8 +20,10 @@
 .header h3 {
     justify-self: end;
     margin-left: auto;
+    color: white;
+    text-decoration: none;
 }
-.header .logIn-link {
+.header .logIn-link a {
     text-decoration: underline;
     text-decoration-color: white;
 }

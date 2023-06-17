@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, Link } from "react-router-dom";
 import { useTours, useFilter } from "../store";
 import Images from "../image-store";
 import "./tour-details.css"
@@ -44,7 +44,7 @@ const TourDetails = () => {
     const startDateFilter = useFilter((state) => state.startDateFilter);
     const tourDurationFilter = useFilter((state) => state.tourDurationFilter);
     const transportFilter = useFilter((state) => state.transportFilter);
-    
+
     const tour = tours.find(tour => String(tour.id) === searchParams.get('id'));  
 
     return (
@@ -121,9 +121,11 @@ const TourDetails = () => {
                             <span>Разом</span>
                             <h2>{placesNeedFilter * tour.price} ГРН</h2>
                         </div>
-                        <div className="tour-details-order-button">
-                            <h2>ЗАМОВИТИ</h2>
-                        </div>
+                        <Link to="/order-form">
+                            <div className="tour-details-order-button">                            
+                                <h2>ЗАМОВИТИ</h2>
+                            </div>
+                        </Link>
                     </div>                
                 </div>
             </div>
@@ -252,15 +254,15 @@ const TransportModalWindow = ({filterValue, opened, onCloseModalWindow}) => {
                         <span>Транспорт</span> <span className="close-modal-window-button" onClick={onCloseModal}>X</span>
                     </div>
                     <div id="transport-modal-radio-container">
-                        <input type="radio" id="radioAirPlane" name="transport" checked={transport === 'Літак'} value="Літак" onClick={onTransportChange}/>
+                        <input type="radio" id="radioAirPlane" name="transport" checked={transport === 'Літак'} value="Літак" onChange={onTransportChange}/>
                         <label htmlFor="radioAirPlane">Літак</label>
                     </div>
                     <div id="transport-modal-radio-container">
-                        <input type="radio" id="radioBus" name="transport" checked={transport === 'Автобус'} value="Автобус" onClick={onTransportChange}/>
+                        <input type="radio" id="radioBus" name="transport" checked={transport === 'Автобус'} value="Автобус" onChange={onTransportChange}/>
                         <label htmlFor="radioBus">Автобус</label>
                     </div>
                     <div id="transport-modal-radio-container">
-                        <input type="radio" id="radioNoTransport" name="transport" checked={transport === 'Без Транспорту'} value="Без Транспорту" onClick={onTransportChange}/>
+                        <input type="radio" id="radioNoTransport" name="transport" checked={transport === 'Без Транспорту'} value="Без Транспорту" onChange={onTransportChange}/>
                         <label htmlFor="radioNoTransport">Без Транспорту</label>
                     </div>
                     <input type="submit" id="modal-window-submit" value="Змінити"/>
