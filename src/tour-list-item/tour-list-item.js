@@ -5,10 +5,8 @@ import Images from "../image-store";
 const TourListItem = ({label, price, stars, country, city, image_id, placesNeed, onOpenDetails}) => {
     return (        
         <div className="tour-list" onClick={onOpenDetails} style={{height: "145px", overflow: "hidden"}}>
-            <div className="tour-list-item">
-                <div className="tour-list-item-image-container">
-                    <img src={Images[image_id]} alt="hotel"/>
-                </div>
+            <div className="tour-list-item">               
+                <img src={Images[image_id]} alt="hotel"/>
                 <div className="tour-list-item-info-container">
                     <div className="tour-list-item-name-container">
                         <span className="tour-list-item-name">{label}</span>

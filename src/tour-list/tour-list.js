@@ -37,9 +37,14 @@ const TourList = () => {
         if (countryFilter) {
             filteredItems = filteredItems.filter((item) => item.country.toLowerCase().indexOf(countryFilter.toLowerCase()) > -1);
         }
-            console.log(items[2].stars === 2);
-            filteredItems = filteredItems.filter((item) => (item.stars === 1 && starsFilter1)||(item.stars === 2 && starsFilter2)||(item.stars === 3 && starsFilter3)||(item.stars === 4 && starsFilter4)||(item.stars === 5 && starsFilter5));
-            
+        if (filteredItems.length > 0) {
+            filteredItems = filteredItems.filter((item) => (
+                item.stars === 1 && starsFilter1)||
+                (item.stars === 2 && starsFilter2)||
+                (item.stars === 3 && starsFilter3)||
+                (item.stars === 4 && starsFilter4)||
+                (item.stars === 5 && starsFilter5));
+        }        
 
         if (transportFilter) {
             filteredItems = filteredItems.filter((item) => item.transport === transportFilter);
@@ -61,18 +66,23 @@ const TourList = () => {
     const onOpenDetails = (id) => {
         console.log(id);
     }
-    const tourItems = visibleItems.map((item) => {
-        const {id, ...itemProps} = item;
-      
-        return (           
-            <TourListItem {...itemProps} key={id} placesNeed={placesNeedFilter} onOpenDetails={() => onOpenDetails(id)}/> 
-        );
-    });
-    return (
-        <div className="tour-list">                                
-            {tourItems}
-        </div>        
-    )
+    if (visibleItems.length < 1) {
+        return <h1>Жодного туру не знайдено</h1>
+    }
+    else {
+        const tourItems = visibleItems.map((item) => {
+            const {id, ...itemProps} = item;
+          
+            return (           
+                <TourListItem {...itemProps} key={id} placesNeed={placesNeedFilter} onOpenDetails={() => onOpenDetails(id)}/> 
+            );
+        });
+        return (
+            <div className="tour-list">                                
+                {tourItems}
+            </div>        
+        )
+    }
 }
 
 export default TourList;
