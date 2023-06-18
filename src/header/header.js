@@ -6,6 +6,11 @@ import "./header.css"
 const Header = () => {
     const users = useUsers(state => state.users);
     const autorizedUser = useUsers(state => state.autorizedUser);
+
+    const autorizedUserRole = autorizedUser.id ? users.find(user => user.id === autorizedUser.id).role : 'guest';
+
+    console.log(autorizedUserRole);
+
     let loginLink;
     
         if (autorizedUser.id) {
@@ -23,7 +28,20 @@ const Header = () => {
                     <Link to="/registration">Зареєструватися</Link>
                 </h3>
             );
-        }    
+        }
+
+    let roleLink;
+
+    if (autorizedUserRole === 'admin') {
+        roleLink = (
+            <Link to="/orders-list">Замовлення</Link>
+        );
+    }
+    else if (autorizedUserRole === 'client') {
+        roleLink = (
+            <Link to="/my-orders">Мої замовлення</Link>
+        );
+    }
 
     return (
         <div className="header">            
@@ -32,6 +50,9 @@ const Header = () => {
             </h1>
             <h2>
                 <Link to="/tours">Тури</Link>
+            </h2>
+            <h2>
+                {roleLink}
             </h2>
             {loginLink}
         </div>

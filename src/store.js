@@ -187,7 +187,7 @@ const useUsers = create(set=>({
             password: 'dimkniaz2002',
             phone: '0993579040',
             date: '2002-03-05',
-            role: 'admin'
+            role: 'client'
         },
         {
             id: 2,
@@ -212,6 +212,18 @@ const useUsers = create(set=>({
             phone: '0993579041',
             date: '2002-03-28',
             role: 'client'
+        },
+        {
+            id: 4,
+            surname: 'Admin',
+            name: 'Admin',            
+            patronymic: 'Admin',
+            login: 'Admin',
+            email: 'Admin@gmail.com',
+            password: '12345678',
+            phone: '0994589041',
+            date: '2002-03-05',
+            role: 'admin'
         }
     ],
 
