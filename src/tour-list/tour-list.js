@@ -1,26 +1,26 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import TourListItem from "../tour-list-item";
-import { useTours, useFilter } from "../store";
+import { useTours, useTourFilter } from "../store";
 import "./tour-list.css"
 
 const TourList = () => {
     const tours = useTours((state) => state.tours);
 
-    const searchterm = useFilter((state) => state.searchTerm);
+    const searchterm = useTourFilter((state) => state.searchTerm);
 
-    const countryFilter = useFilter((state) => state.countryFilter);
-    const startDateFilter = useFilter((state) => state.startDateFilter);
-    const tourDurationFilter = useFilter((state) => state.tourDurationFilter);
-    const starsFilter1 = useFilter((state) => state.starsFilter1);
-    const starsFilter2 = useFilter((state) => state.starsFilter2);
-    const starsFilter3 = useFilter((state) => state.starsFilter3);
-    const starsFilter4 = useFilter((state) => state.starsFilter4);
-    const starsFilter5 = useFilter((state) => state.starsFilter5);
-    const placesNeedFilter = useFilter((state) => state.placesNeedFilter); 
-    const transportFilter = useFilter((state) => state.transportFilter); 
-    const minPriceFilter = useFilter((state) => state.minPriceFilter);
-    const maxPriceFilter = useFilter((state) => state.maxPriceFilter);  
+    const countryFilter = useTourFilter((state) => state.countryFilter);
+    const startDateFilter = useTourFilter((state) => state.startDateFilter);
+    const tourDurationFilter = useTourFilter((state) => state.tourDurationFilter);
+    const starsFilter1 = useTourFilter((state) => state.starsFilter1);
+    const starsFilter2 = useTourFilter((state) => state.starsFilter2);
+    const starsFilter3 = useTourFilter((state) => state.starsFilter3);
+    const starsFilter4 = useTourFilter((state) => state.starsFilter4);
+    const starsFilter5 = useTourFilter((state) => state.starsFilter5);
+    const placesNeedFilter = useTourFilter((state) => state.placesNeedFilter); 
+    const transportFilter = useTourFilter((state) => state.transportFilter); 
+    const minPriceFilter = useTourFilter((state) => state.minPriceFilter);
+    const maxPriceFilter = useTourFilter((state) => state.maxPriceFilter);  
 
     const search = (items, searchterm) => {
         if (searchterm.length === 0) {
@@ -64,9 +64,6 @@ const TourList = () => {
 
     const visibleItems = filter(search(tours, searchterm));
 
-    const onOpenDetails = (id) => {        
-        console.log(id);
-    }
     if (visibleItems.length < 1) {
         return (
             <div className="no-tours-message-container">

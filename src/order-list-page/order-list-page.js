@@ -6,9 +6,11 @@ import "./order-list-page.css";
 const OrderListPage = () => {
     return (
         <div className="order-list-page">
-            <OrderFilter/>
-            <OrderList/>
-        </div>
+            <div className="filter-list-container">
+                <OrderFilter/>
+                <OrderList/>
+            </div>
+        </div>        
     );
 }
 

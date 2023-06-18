@@ -9,8 +9,6 @@ const Header = () => {
 
     const autorizedUserRole = autorizedUser.id ? users.find(user => user.id === autorizedUser.id).role : 'guest';
 
-    console.log(autorizedUserRole);
-
     let loginLink;
     
         if (autorizedUser.id) {

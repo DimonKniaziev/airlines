@@ -1,33 +1,33 @@
 import React from "react";
-import { useFilter } from "../store";
+import { useTourFilter } from "../store";
 import "./tour-filter.css";
 
 
 const TourFilter = () => {    
-    const countryFilter = useFilter((state) => state.countryFilter);
-    const startDateFilter = useFilter((state) => state.startDateFilter);
-    const tourDurationFilter = useFilter((state) => state.tourDurationFilter);
-    const starsFilter1 = useFilter((state) => state.starsFilter1);
-    const starsFilter2 = useFilter((state) => state.starsFilter2);
-    const starsFilter3 = useFilter((state) => state.starsFilter3);
-    const starsFilter4 = useFilter((state) => state.starsFilter4);
-    const starsFilter5 = useFilter((state) => state.starsFilter5);
-    const placesNeedFilter = useFilter((state) => state.placesNeedFilter);
-    const minPriceFilter = useFilter((state) => state.minPriceFilter);
-    const maxPriceFilter = useFilter((state) => state.maxPriceFilter);
+    const countryFilter = useTourFilter((state) => state.countryFilter);
+    const startDateFilter = useTourFilter((state) => state.startDateFilter);
+    const tourDurationFilter = useTourFilter((state) => state.tourDurationFilter);
+    const starsFilter1 = useTourFilter((state) => state.starsFilter1);
+    const starsFilter2 = useTourFilter((state) => state.starsFilter2);
+    const starsFilter3 = useTourFilter((state) => state.starsFilter3);
+    const starsFilter4 = useTourFilter((state) => state.starsFilter4);
+    const starsFilter5 = useTourFilter((state) => state.starsFilter5);
+    const placesNeedFilter = useTourFilter((state) => state.placesNeedFilter);
+    const minPriceFilter = useTourFilter((state) => state.minPriceFilter);
+    const maxPriceFilter = useTourFilter((state) => state.maxPriceFilter);
 
-    const setCountryFilter = useFilter((state) => state.setCountryFilter);
-    const setStartDateFilter = useFilter((state) => state.setStartDateFilter);
-    const setTourDurationFilter = useFilter((state) => state.setTourDurationFilter);
-    const setStarsFilter1 = useFilter((state) => state.setStarsFilter1);
-    const setStarsFilter2 = useFilter((state) => state.setStarsFilter2);
-    const setStarsFilter3 = useFilter((state) => state.setStarsFilter3);
-    const setStarsFilter4 = useFilter((state) => state.setStarsFilter4);
-    const setStarsFilter5 = useFilter((state) => state.setStarsFilter5);
-    const setPlacesNeedFilter = useFilter((state) => state.setPlacesNeedFilter);
-    const setTransportFilter = useFilter((state) => state.setTransportFilter);
-    const setMinPriceFilter = useFilter((state) => state.setMinPriceFilter);
-    const setMaxPriceFilter = useFilter((state) => state.setMaxPriceFilter);
+    const setCountryFilter = useTourFilter((state) => state.setCountryFilter);
+    const setStartDateFilter = useTourFilter((state) => state.setStartDateFilter);
+    const setTourDurationFilter = useTourFilter((state) => state.setTourDurationFilter);
+    const setStarsFilter1 = useTourFilter((state) => state.setStarsFilter1);
+    const setStarsFilter2 = useTourFilter((state) => state.setStarsFilter2);
+    const setStarsFilter3 = useTourFilter((state) => state.setStarsFilter3);
+    const setStarsFilter4 = useTourFilter((state) => state.setStarsFilter4);
+    const setStarsFilter5 = useTourFilter((state) => state.setStarsFilter5);
+    const setPlacesNeedFilter = useTourFilter((state) => state.setPlacesNeedFilter);
+    const setTransportFilter = useTourFilter((state) => state.setTransportFilter);
+    const setMinPriceFilter = useTourFilter((state) => state.setMinPriceFilter);
+    const setMaxPriceFilter = useTourFilter((state) => state.setMaxPriceFilter);
     
     const onSetCountryFilter = (e) => {
         setCountryFilter(e.target.value);

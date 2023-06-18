@@ -9,6 +9,7 @@ import OrderForm from "../order-form";
 import RegistrationForm from "../registration-form";
 import LoginForm from "../login-form";
 import UserDetails from "../user-details";
+import OrderDetails from "../order-details";
 import "./app.css";
 
 const App = () => {
@@ -25,6 +26,7 @@ const App = () => {
           <Route path="/registration" element={<RegistrationForm/>}/>
           <Route path="/tour-details" element={<TourDetails/>}/>
           <Route path="/order-form" element={<OrderForm/>}/>
+          <Route path="/order-details" element={<OrderDetails/>}/>
           <Route path="/user-details" element={<UserDetails/>}/>
         </Routes>
       </BrowserRouter>      

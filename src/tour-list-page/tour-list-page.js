@@ -2,7 +2,7 @@ import React from "react";
 import TourSearchPanel from "../tour-search-panel";
 import TourFilter from "../tour-filter";
 import TourList from "../tour-list/tour-list";
-import "./tour-list-paje.css";
+import "./tour-list-page.css";
 
 const TourListPage = () => {
   

@@ -1,5 +1,5 @@
-.tour-list-item {
-    width: 560px;
+.tour-list-item {    
+    min-width: 570px;
     height: 130px;
     border-width: 5px;
     border: solid;
@@ -18,12 +18,13 @@
 
 .tour-list-item-info-container {
     padding-left: 5px;
+    padding-right: 5px;
+    width: 100%;
 }
 
 .tour-list-item-name-container {
     display: flex;
     justify-content: space-between;
-    width: 315px;
 }
 
 .tour-list-item-name {

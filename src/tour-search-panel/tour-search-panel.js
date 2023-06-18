@@ -1,10 +1,10 @@
 import React from "react";
-import { useFilter } from "../store";
+import { useTourFilter } from "../store";
 import "./tour-search-panel.css"
 
 const TourSearchPanel = () => {
-  const searchTerm = useFilter((state) => state.searchTerm)
-  const setSearchTerm = useFilter((state) => state.setSearchTerm);
+  const searchTerm = useTourFilter((state) => state.searchTerm)
+  const setSearchTerm = useTourFilter((state) => state.setSearchTerm);
 
   const onSearch = (e) => {
     setSearchTerm(e.target.value);

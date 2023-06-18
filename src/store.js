@@ -139,9 +139,8 @@ const useTours = create(set => ({
         ]
 }))
 
-const useFilter = create(set => ({
+const useTourFilter = create(set => ({
     searchTerm: '',
-
     countryFilter: '',
     startDateFilter: '',
     tourDurationFilter: '1',    
@@ -171,6 +170,130 @@ const useFilter = create(set => ({
     setMaxPriceFilter: (maxPriceFilter) => set({maxPriceFilter})    
 }))
 
+const useOrders = create(set => ({
+    maxId: 10000,
+    orders: [
+        {
+            id: 1,
+            tour_id: 2,
+            user_id: 1,
+            date: '2023-03-05',
+            start: '2023-03-06',
+            duration: 6,
+            places: 6,
+            totalPrice: 119892
+        },
+        {
+            id: 2,
+            tour_id: 4,
+            user_id: 2,
+            date: '2023-04-09',
+            start: '2023-04-12',
+            duration: 6,
+            places: 3,
+            totalPrice: 119892
+        },
+        {
+            id: 3,
+            tour_id: 5,
+            user_id: 2,
+            date: '2023-05-16',
+            start: '2023-05-25',
+            duration: 6,
+            places: 4,
+            totalPrice: 119892
+        },
+        {
+            id: 4,
+            tour_id: 5,
+            user_id: 3,
+            date: '2023-06-18',
+            start: '2023-06-20',
+            duration: 6,
+            places: 3,
+            totalPrice: 119892
+        },
+        {
+            id: 5,
+            tour_id: 4,
+            user_id: 1,
+            date: '2023-07-13',
+            start: '2023-07-16',
+            duration: 6,
+            places: 5,
+            totalPrice: 119892
+        },
+        {
+            id: 6,
+            tour_id: 4,
+            user_id: 2,
+            date: '2023-08-23',
+            start: '2023-08-28',
+            duration: 6,
+            places: 8,
+            totalPrice: 119892
+        },
+        {
+            id: 7,
+            tour_id: 6,
+            user_id: 3,
+            date: '2023-09-04',
+            start: '2023-10-01',
+            duration: 6,
+            places: 1,
+            totalPrice: 119892
+        },
+        {
+            id: 8,
+            tour_id: 2,
+            user_id: 1,
+            date: '2022-02-17',
+            start: '2022-02-06',
+            duration: 6,
+            places: 1,
+            totalPrice: 119892
+        },
+        {
+            id: 9,
+            tour_id: 6,
+            user_id: 3,
+            date: '2022-01-11',
+            start: '2022-03-23',
+            duration: 6,
+            places: 3,
+            totalPrice: 119892
+        },
+        {
+            id: 10,
+            tour_id: 8,
+            user_id: 2,
+            date: '2022-03-05',
+            start: '2022-03-06',
+            duration: 6,
+            places: 2,
+            totalPrice: 123712
+        },
+        {
+            id: 11,
+            tour_id: 9,
+            user_id: 3,
+            date: '2022-03-05',
+            start: '2022-03-06',
+            duration: 6,
+            places: 5,
+            totalPrice: 119892
+        }
+    ]
+}))
+
+const useOrderFilter = create(set => ({
+    periodFilter: 'all',
+    sortingTerm: '',
+    
+    setPeriodFilter: (periodFilter) => set({periodFilter}),
+    setSortingTerm: (sortingTerm) => set({sortingTerm})    
+}))
+
 const useUsers = create(set=>({
     maxId: 1000,
     autorizedUser: {
@@ -192,7 +315,7 @@ const useUsers = create(set=>({
         {
             id: 2,
             surname: 'Анікіна',
-            name: 'Александра',            
+            name: 'Олександра',            
             patronymic: 'Генадіївна',
             login: 'PersikoveMorozyvo',
             email: 'dimkniazz@gmail.com',
@@ -237,10 +360,10 @@ const useUsers = create(set=>({
             return {users: [...state.users.slice(0, idx), newItem, ...state.users.slice(idx+1)]}
         }
         else {
-            const user = {id: state.maxId, ...newUser,role: 'user'};
+            const user = {id: state.maxId, ...newUser, role: 'сlient'};
             return {users: [...state.users, user], maxId: state.maxId + 1, autorizedUser: {login: user.login, password: user.password, id: user.id}};
         }        
     })
 }))
 
-export {useTours, useFilter, useUsers};
+export {useTours, useTourFilter, useOrders, useOrderFilter, useUsers};

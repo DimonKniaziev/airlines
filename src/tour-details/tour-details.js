@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";
-import { useTours, useFilter } from "../store";
+import { useTours, useTourFilter } from "../store";
 import Images from "../image-store";
 import "./tour-details.css"
 
@@ -40,10 +40,10 @@ const TourDetails = () => {
     }
 
     const tours = useTours((state) => state.tours);
-    const placesNeedFilter = useFilter((state) => state.placesNeedFilter);
-    const startDateFilter = useFilter((state) => state.startDateFilter);
-    const tourDurationFilter = useFilter((state) => state.tourDurationFilter);
-    const transportFilter = useFilter((state) => state.transportFilter);
+    const placesNeedFilter = useTourFilter((state) => state.placesNeedFilter);
+    const startDateFilter = useTourFilter((state) => state.startDateFilter);
+    const tourDurationFilter = useTourFilter((state) => state.tourDurationFilter);
+    const transportFilter = useTourFilter((state) => state.transportFilter);
 
     const tour = tours.find(tour => String(tour.id) === searchParams.get('id'));  
 
@@ -138,7 +138,7 @@ const TourDetails = () => {
 }
 
 const PlacesNeedModalWindow = ({filterValue, opened, onCloseModalWindow}) => {
-    const setPlacesNeedFilter = useFilter((state) => state.setPlacesNeedFilter);
+    const setPlacesNeedFilter = useTourFilter((state) => state.setPlacesNeedFilter);
     const [number, setNumber] = useState(filterValue);
     const onNumberChange = (e) => {
         setNumber(e.target.value);
@@ -169,7 +169,7 @@ const PlacesNeedModalWindow = ({filterValue, opened, onCloseModalWindow}) => {
 }
 
 const StartDateModalWindow = ({filterValue, opened, onCloseModalWindow}) => {
-    const setStartDateFilter = useFilter((state) => state.setStartDateFilter);
+    const setStartDateFilter = useTourFilter((state) => state.setStartDateFilter);
     const [date, setDate] = useState(filterValue);
     const onDateChange = (e) => {
         setDate(e.target.value);
@@ -200,7 +200,7 @@ const StartDateModalWindow = ({filterValue, opened, onCloseModalWindow}) => {
 }
 
 const DurationModalWindow = ({filterValue, opened, onCloseModalWindow}) => {
-    const setTourDurationFilter = useFilter((state) => state.setTourDurationFilter);
+    const setTourDurationFilter = useTourFilter((state) => state.setTourDurationFilter);
     const [number, setNumber] = useState(filterValue);
     const onDateChange = (e) => {
         setNumber(e.target.value);
@@ -231,7 +231,7 @@ const DurationModalWindow = ({filterValue, opened, onCloseModalWindow}) => {
 }
 
 const TransportModalWindow = ({filterValue, opened, onCloseModalWindow}) => {
-    const setTransportFilter = useFilter((state) => state.setTransportFilter);
+    const setTransportFilter = useTourFilter((state) => state.setTransportFilter);
     const [transport, setTransport] = useState(filterValue);
     const onTransportChange = (e) => {
         setTransport(e.target.value);
