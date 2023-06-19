@@ -1,10 +1,11 @@
 import React from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, Navigate } from "react-router-dom";
 import { useTours, useOrders, useUsers } from "../store";
 import "./order-details.css"
 
 const OrderDetails = () => {
     let [searchParams] = useSearchParams();
+    const autorizedUser = useUsers(state => state.autorizedUser);
 
     const tours = useTours((state) => state.tours);
     const users = useUsers((state) => state.users);
@@ -24,6 +25,23 @@ const OrderDetails = () => {
     }
 
     const orderDetails = getOrderDetails();
+
+    const touristsList = order.tourists.map((item) => {
+        
+        return (            
+            <tr key={item.id}>
+                <td>{item.surname}</td>
+                <td>{item.name}</td>
+                <td>{item.patronymic}</td>
+                <td>{item.phone}</td>
+                <td>{item.date}</td>
+            </tr>
+        );
+    });
+
+    if (!autorizedUser.login) {
+        return <Navigate to="/"/>
+    }
 
     return (
         <div className="order-details-container">
@@ -109,8 +127,29 @@ const OrderDetails = () => {
                                 </tr>
                             </tbody>                        
                         </table>
-                    </div>           
+                    </div>          
                 </div>
+
+                <div className="order-details-header">
+                    <h1>ТУРИСТИ</h1>
+                </div>
+
+                <div className="order-details-body">
+                    <div className="order-details-table">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>Прізвище</td>
+                                    <td>Ім'я</td>
+                                    <td>По-батькові</td>
+                                    <td>Телефон</td>
+                                    <td>Дата народження</td>
+                                </tr>
+                                {touristsList}                               
+                            </tbody>                        
+                        </table>
+                    </div>
+                </div>                     
             </div>
         </div>
     );
