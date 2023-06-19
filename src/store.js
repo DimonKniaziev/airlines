@@ -180,8 +180,26 @@ const useOrders = create(set => ({
             date: '2023-03-05',
             start: '2023-03-06',
             duration: 6,
-            places: 6,
-            totalPrice: 119892
+            places: 2,
+            totalPrice: 1119892,
+            tourists: [
+                {
+                    id: 1,
+                    surname: 'Князєв',
+                    name: 'Дмитро',            
+                    patronymic: 'Ігорович',                    
+                    phone: '0993579040',
+                    date: '2002-03-05',
+                },
+                {   
+                    id: 2,
+                    surname: 'Анікіна',
+                    name: 'Александра',            
+                    patronymic: 'Генадіївна',                    
+                    phone: '0993579041',
+                    date: '2003-04-04',
+                }
+            ]
         },
         {
             id: 2,
@@ -191,7 +209,33 @@ const useOrders = create(set => ({
             start: '2023-04-12',
             duration: 6,
             places: 3,
-            totalPrice: 119892
+            totalPrice: 124292,
+            tourists: [
+                {   
+                    id: 1,
+                    surname: 'Князєв',
+                    name: 'Дмитро',            
+                    patronymic: 'Ігорович',                    
+                    phone: '0993579040',
+                    date: '2002-03-05',
+                },
+                {
+                    id: 2,
+                    surname: 'Анікіна',
+                    name: 'Александра',            
+                    patronymic: 'Генадіївна',                    
+                    phone: '0993579041',
+                    date: '2003-04-04',
+                },
+                {
+                    id: 3,
+                    surname: 'Будько',
+                    name: 'Іван',            
+                    patronymic: 'Степановіч',                    
+                    phone: '0993579041',
+                    date: '1960-04-16',
+                },
+            ]
         },
         {
             id: 3,
@@ -201,7 +245,41 @@ const useOrders = create(set => ({
             start: '2023-05-25',
             duration: 6,
             places: 4,
-            totalPrice: 119892
+            totalPrice: 234892,
+            tourists: [
+                {
+                    id: 1,
+                    surname: 'Князєв',
+                    name: 'Дмитро',            
+                    patronymic: 'Ігорович',                    
+                    phone: '0993579040',
+                    date: '2002-03-05',
+                },
+                {
+                    id: 2,
+                    surname: 'Анікіна',
+                    name: 'Александра',            
+                    patronymic: 'Генадіївна',                    
+                    phone: '0993579041',
+                    date: '2003-04-04',
+                },
+                {
+                    id: 3,
+                    surname: 'Будько',
+                    name: 'Іван',            
+                    patronymic: 'Степановіч',                    
+                    phone: '0993579041',
+                    date: '1960-04-16',
+                },
+                {
+                    id: 4,
+                    surname: 'Мальборова',
+                    name: 'Олена',            
+                    patronymic: 'Степанівна',                    
+                    phone: '0993579041',
+                    date: '1990-04-16'
+                },
+            ]
         },
         {
             id: 4,
@@ -211,7 +289,33 @@ const useOrders = create(set => ({
             start: '2023-06-20',
             duration: 6,
             places: 3,
-            totalPrice: 119892
+            totalPrice: 453892,
+            tourists: [                
+                {
+                    id: 1,
+                    surname: 'Анікіна',
+                    name: 'Александра',            
+                    patronymic: 'Генадіївна',                    
+                    phone: '0993579041',
+                    date: '2003-04-04',
+                },
+                {
+                    id: 2,
+                    surname: 'Будько',
+                    name: 'Іван',            
+                    patronymic: 'Степановіч',                    
+                    phone: '0993579041',
+                    date: '1960-04-16',
+                },
+                {
+                    id: 3,
+                    surname: 'Мальборова',
+                    name: 'Олена',            
+                    patronymic: 'Степанівна',                    
+                    phone: '0993579041',
+                    date: '1990-04-16'
+                },
+            ]
         },
         {
             id: 5,
@@ -221,7 +325,49 @@ const useOrders = create(set => ({
             start: '2023-07-16',
             duration: 6,
             places: 5,
-            totalPrice: 119892
+            totalPrice: 364892,
+            tourists: [
+                {
+                    id: 1,
+                    surname: 'Князєв',
+                    name: 'Дмитро',            
+                    patronymic: 'Ігорович',                    
+                    phone: '0993579040',
+                    date: '2002-03-05',
+                },
+                {
+                    id: 2,
+                    surname: 'Анікіна',
+                    name: 'Александра',            
+                    patronymic: 'Генадіївна',                    
+                    phone: '0993579041',
+                    date: '2003-04-04',
+                },
+                {
+                    id: 3,
+                    surname: 'Будько',
+                    name: 'Іван',            
+                    patronymic: 'Степановіч',                    
+                    phone: '0993579044',
+                    date: '1960-04-16',
+                },
+                {
+                    id: 4,
+                    surname: 'Мальборова',
+                    name: 'Олена',            
+                    patronymic: 'Степанівна',                    
+                    phone: '0993525041',
+                    date: '1990-04-16'
+                },
+                {
+                    id: 5,
+                    surname: 'Залізна',
+                    name: 'Олена',            
+                    patronymic: 'Степанівна',                    
+                    phone: '0993525041',
+                    date: '1990-04-16'
+                },
+            ]
         },
         {
             id: 6,
@@ -230,8 +376,34 @@ const useOrders = create(set => ({
             date: '2023-08-23',
             start: '2023-08-28',
             duration: 6,
-            places: 8,
-            totalPrice: 119892
+            places: 3,
+            totalPrice: 88894,
+            tourists: [                
+                {
+                    id: 1,
+                    surname: 'Будько',
+                    name: 'Іван',            
+                    patronymic: 'Степановіч',                    
+                    phone: '0993579044',
+                    date: '1960-04-16',
+                },
+                {
+                    id: 2,
+                    surname: 'Мальборова',
+                    name: 'Олена',            
+                    patronymic: 'Степанівна',                    
+                    phone: '0993525041',
+                    date: '1990-04-16'
+                },
+                {
+                    id: 3,
+                    surname: 'Залізна',
+                    name: 'Олена',            
+                    patronymic: 'Степанівна',                    
+                    phone: '0993525041',
+                    date: '1990-04-16'
+                },
+            ]
         },
         {
             id: 7,
@@ -241,7 +413,17 @@ const useOrders = create(set => ({
             start: '2023-10-01',
             duration: 6,
             places: 1,
-            totalPrice: 119892
+            totalPrice: 119892,
+            tourists: [
+                {
+                    id: 1,
+                    surname: 'Анікіна',
+                    name: 'Александра',            
+                    patronymic: 'Генадіївна',                    
+                    phone: '0993579041',
+                    date: '2003-04-04',
+                }
+            ]
         },
         {
             id: 8,
@@ -251,7 +433,17 @@ const useOrders = create(set => ({
             start: '2022-02-06',
             duration: 6,
             places: 1,
-            totalPrice: 119892
+            totalPrice: 119892,
+            tourists: [
+                {
+                    id: 2,
+                    surname: 'Мальборова',
+                    name: 'Олена',            
+                    patronymic: 'Степанівна',                    
+                    phone: '0993525233',
+                    date: '1990-04-16'
+                }
+            ]
         },
         {
             id: 9,
@@ -261,7 +453,33 @@ const useOrders = create(set => ({
             start: '2022-03-23',
             duration: 6,
             places: 3,
-            totalPrice: 119892
+            totalPrice: 119892,
+            tourists: [               
+                {
+                    id: 1,
+                    surname: 'Будько',
+                    name: 'Іван',            
+                    patronymic: 'Степановіч',                    
+                    phone: '0993579044',
+                    date: '1960-04-16',
+                },
+                {
+                    id: 2,
+                    surname: 'Мальборова',
+                    name: 'Олена',            
+                    patronymic: 'Степанівна',                    
+                    phone: '0993525041',
+                    date: '1990-04-16'
+                },
+                {
+                    id: 3,
+                    surname: 'Залізна',
+                    name: 'Олена',            
+                    patronymic: 'Степанівна',                    
+                    phone: '0993525233',
+                    date: '1990-04-16'
+                },
+            ]
         },
         {
             id: 10,
@@ -271,7 +489,25 @@ const useOrders = create(set => ({
             start: '2022-03-06',
             duration: 6,
             places: 2,
-            totalPrice: 123712
+            totalPrice: 123712,
+            tourists: [
+                {
+                    id: 1,
+                    surname: 'Князєв',
+                    name: 'Дмитро',            
+                    patronymic: 'Ігорович',                    
+                    phone: '0993579040',
+                    date: '2002-03-05',
+                },
+                {
+                    id: 2,
+                    surname: 'Анікіна',
+                    name: 'Александра',            
+                    patronymic: 'Генадіївна',                    
+                    phone: '0993579041',
+                    date: '2003-04-04',
+                }
+            ]
         },
         {
             id: 11,
@@ -281,11 +517,54 @@ const useOrders = create(set => ({
             start: '2022-03-06',
             duration: 6,
             places: 5,
-            totalPrice: 119892
+            totalPrice: 119892,
+            tourists: [
+                {
+                    id: 1,
+                    surname: 'Дорофеєв',
+                    name: 'Олег',            
+                    patronymic: 'Олеговіч',                    
+                    phone: '0993579040',
+                    date: '2002-03-05',
+                },
+                {
+                    id: 2,
+                    surname: 'Белькова',
+                    name: 'Ольга',            
+                    patronymic: 'Василівна',                    
+                    phone: '0993579041',
+                    date: '2003-04-04',
+                },
+                {
+                    id: 3,
+                    surname: 'Будько',
+                    name: 'Іван',            
+                    patronymic: 'Степановіч',                    
+                    phone: '0993579044',
+                    date: '1960-04-16',
+                },
+                {
+                    id: 4,
+                    surname: 'Мальборова',
+                    name: 'Олена',            
+                    patronymic: 'Степанівна',                    
+                    phone: '0993525041',
+                    date: '1990-04-16'
+                },
+                {
+                    id: 5,
+                    surname: 'Залізна',
+                    name: 'Олена',            
+                    patronymic: 'Степанівна',                    
+                    phone: '0993525041',
+                    date: '1990-04-16'
+                },
+            ]
         }
     ],
     addOrder: (newOrder) => set(state => {
-        return {orders: [...state.orders, newOrder], maxId: state.maxId + 1};
+        const order = {...newOrder, id: state.maxId}
+        return {orders: [...state.orders, order], maxId: state.maxId + 1};
     })
 }))
 
@@ -321,7 +600,7 @@ const useUsers = create(set=>({
             name: 'Олександра',            
             patronymic: 'Генадіївна',
             login: 'PersikoveMorozyvo',
-            email: 'dimkniazz@gmail.com',
+            email: 'PersikoveMorozyvo@gmail.com',
             password: 'dimkniaz2002',
             phone: '0993579041',
             date: '2003-04-04',
@@ -346,7 +625,7 @@ const useUsers = create(set=>({
             patronymic: 'Admin',
             login: 'Admin',
             email: 'Admin@gmail.com',
-            password: '12345678',
+            password: 'dimkniaz2002',
             phone: '0994589041',
             date: '2002-03-05',
             role: 'admin'
