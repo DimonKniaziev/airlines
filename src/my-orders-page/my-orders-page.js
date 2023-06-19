@@ -10,8 +10,10 @@ const MyOrdersPage = () => {
     
     return (
         <div className="my-orders-page">
-            <OrderFilter/>
-            <MyOrders/>
+            <div className="filter-list-container">
+                <OrderFilter/>
+                <MyOrders/>
+            </div>
         </div>
     );
 }
