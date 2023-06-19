@@ -1,9 +1,10 @@
 import React, {useState} from "react";
 import { Navigate } from "react-router-dom";
-import { useUsers } from "../store";
+import { useUsers, useSearchHistory } from "../store";
 import "./user-details.css";
 
 const UserDetails = () => {
+    const lastPage = useSearchHistory(state => state.lastPage);
     const users = useUsers(state => state.users);
     const autorizeUser = useUsers(state => state.autorizeUser);
     const autorizedUser = useUsers(state => state.autorizedUser);
@@ -66,7 +67,7 @@ const UserDetails = () => {
     }
 
     if (!autorizedUser.login) {        
-        return <Navigate to="/"/>
+        return <Navigate to={lastPage}/>;
     }
 
     return (

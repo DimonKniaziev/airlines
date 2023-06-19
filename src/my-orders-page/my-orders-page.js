@@ -6,7 +6,7 @@ import "./my-orders-page.css";
 
 const MyOrdersPage = () => {
     const setLastPage = useSearchHistory(state => state.setLastPage);
-    setLastPage('/tours');
+    setLastPage('/my-orders');
     
     return (
         <div className="my-orders-page">

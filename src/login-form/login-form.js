@@ -8,10 +8,9 @@ const LoginForm = () => {
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
 
-  const [loginDone, setLoginDone] = useState(false);
-
   const users = useUsers(state => state.users);
   const autorizeUser = useUsers(state => state.autorizeUser);
+  const autorizedUser = useUsers(state => state.autorizedUser);
 
   const onLoginChange = (e) => {
     setLogin(e.target.value);
@@ -31,14 +30,10 @@ const LoginForm = () => {
     else {
       alert("Не правильно введено Логін або Пароль");
     }
-
-    setLoginDone(true);
   }
 
-  if (loginDone) {
-    return (
-      <Navigate to={lastPage}/>
-    );
+  if (autorizedUser.login) {
+    return <Navigate to={lastPage}/>;
   }
 
   return (

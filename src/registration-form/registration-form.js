@@ -14,9 +14,8 @@ const RegistrationForm = () => {
   const [phone, setPhone] = useState('');
   const [date, setDate] = useState('');
 
-  const [loginDone, setLoginDone] = useState(false);
-
   const users = useUsers(state => state.users);
+  const autorizedUser = useUsers(state => state.autorizedUser);
   const addUser = useUsers(state => state.addUser);
 
   const onSurnameChange = (e) => {
@@ -73,14 +72,10 @@ const RegistrationForm = () => {
       alert('Ви успішно зареєструвалися!');
       addUser(newUser);        
     }
-    
-    setLoginDone(true);
   }
 
-  if (loginDone) {
-    return (
-      <Navigate to={lastPage}/>
-    );
+  if (autorizedUser.login) {
+    return <Navigate to={lastPage}/>;
   }
 
   return (    
