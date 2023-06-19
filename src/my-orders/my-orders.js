@@ -79,11 +79,10 @@ const MyOrders = () => {
             return (
                 <tr key={order.id}>
                     <td>{order.date}</td>
-                    <td>{order.places}</td>                    
-                    <td>{order.userName}</td>
+                    <td>{order.places}</td>
                     <td>{order.tourLabel}</td>
                     <td>{order.totalPrice}</td>
-                    <td>
+                    <td id="td-detail-button">
                         <Link to={`/order-details?id=${order.id}`}>
                             Детальніше
                         </Link> 
@@ -95,20 +94,19 @@ const MyOrders = () => {
         return (
             <div className="order-list-container">
                 <div className="order-list-table">
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <td>Дата</td>
-                                        <td>Туристів</td>
-                                        <td>Замовник</td>
-                                        <td>Готель</td>
-                                        <td>Вартість</td>
-                                        <td><span></span></td>
-                                    </tr>
-                                    {orderItems}
-                                </tbody>                        
-                            </table>
-                        </div>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>Дата</td>
+                                <td>Туристів</td>
+                                <td>Готель</td>
+                                <td>Вартість</td>
+                                <td><span></span></td>
+                            </tr>
+                            {orderItems}
+                        </tbody>                        
+                    </table>
+                </div>
             </div>
         );
     }
