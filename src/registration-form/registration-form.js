@@ -1,8 +1,10 @@
 import React, {useState} from "react";
-import { useUsers } from "../store";
+import { Navigate } from "react-router-dom";
+import { useUsers, useSearchHistory } from "../store";
 import "./registration-form.css";
 
 const RegistrationForm = () => {
+  const lastPage = useSearchHistory(state => state.lastPage);
   const [surname, setSurname] = useState('');
   const [name, setName] = useState('');
   const [patronymic, setPatronymic] = useState('');
@@ -11,6 +13,8 @@ const RegistrationForm = () => {
   const [password, setPassword] = useState('');
   const [phone, setPhone] = useState('');
   const [date, setDate] = useState('');
+
+  const [loginDone, setLoginDone] = useState(false);
 
   const users = useUsers(state => state.users);
   const addUser = useUsers(state => state.addUser);
@@ -69,9 +73,17 @@ const RegistrationForm = () => {
       alert('Ви успішно зареєструвалися!');
       addUser(newUser);        
     }
+    
+    setLoginDone(true);
   }
 
-  return (
+  if (loginDone) {
+    return (
+      <Navigate to={lastPage}/>
+    );
+  }
+
+  return (    
     <form className="registration-form" onSubmit={onSubmit}>
       <h1>Реєстрація</h1>
       <span>Прізвище</span><br/>

@@ -1,10 +1,14 @@
 import React, {useState} from "react";
-import { useUsers } from "../store";
+import { Navigate } from "react-router-dom";
+import { useUsers, useSearchHistory } from "../store";
 import "./login-form.css";
 
 const LoginForm = () => {
+  const lastPage = useSearchHistory(state => state.lastPage);
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
+
+  const [loginDone, setLoginDone] = useState(false);
 
   const users = useUsers(state => state.users);
   const autorizeUser = useUsers(state => state.autorizeUser);
@@ -27,6 +31,14 @@ const LoginForm = () => {
     else {
       alert("Не правильно введено Логін або Пароль");
     }
+
+    setLoginDone(true);
+  }
+
+  if (loginDone) {
+    return (
+      <Navigate to={lastPage}/>
+    );
   }
 
   return (

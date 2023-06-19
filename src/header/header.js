@@ -1,32 +1,33 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useUsers } from "../store";
+import { useUsers, useSearchHistory } from "../store";
 import "./header.css"
 
 const Header = () => {
     const users = useUsers(state => state.users);
     const autorizedUser = useUsers(state => state.autorizedUser);
+    const lastPage = useSearchHistory(state => state.lastPage);
 
     const autorizedUserRole = autorizedUser.id ? users.find(user => user.id === autorizedUser.id).role : 'guest';
 
     let loginLink;
     
-        if (autorizedUser.id) {
-            loginLink = (
-                <h3 className="logIn-link">
-                    <Link to="/user-details">{users.find(user => user.id === autorizedUser.id).login}</Link>
-                </h3>
-            );
-        }
-        else {
-            loginLink = (
-                <h3 className="logIn-link">
-                    <Link to="/login">Увійти</Link>
-                    /
-                    <Link to="/registration">Зареєструватися</Link>
-                </h3>
-            );
-        }
+    if (autorizedUser.id) {
+        loginLink = (
+            <h3 className="logIn-link">
+                <Link to="/user-details">{users.find(user => user.id === autorizedUser.id).login}</Link>
+            </h3>
+        );
+    }
+    else {
+        loginLink = (
+            <h3 className="logIn-link">
+                <Link to="/login">Увійти</Link>
+                /
+                <Link to="/registration">Зареєструватися</Link>
+            </h3>
+        );
+    }
 
     let roleLink;
 
@@ -52,6 +53,7 @@ const Header = () => {
             <h2>
                 {roleLink}
             </h2>
+            {lastPage}
             {loginLink}
         </div>
     )

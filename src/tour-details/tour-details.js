@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSearchHistory } from "../store";
 import { useSearchParams, Link } from "react-router-dom";
 import { useTours, useTourFilter } from "../store";
 import Images from "../image-store";
@@ -6,6 +7,8 @@ import "./tour-details.css"
 
 const TourDetails = () => {
     let [searchParams] = useSearchParams();
+    const setLastPage = useSearchHistory(state => state.setLastPage);
+    setLastPage(`/tour-details?id=${searchParams.get('id')}`);
     const [openPlacesModal, setOpenPlacesModal] = useState(false);
     const [openStartDateModal, setOpenStartDateModal] = useState(false);
     const [openDurationModal, setOpenDurationModal] = useState(false);
@@ -121,7 +124,7 @@ const TourDetails = () => {
                             <span>Разом</span>
                             <h2>{placesNeedFilter * tour.price} ГРН</h2>
                         </div>
-                        <Link to="/order-form">
+                        <Link to={`/order-form?id=${tour.id}`}>
                             <div className="tour-details-order-button">                            
                                 <h2>ЗАМОВИТИ</h2>
                             </div>

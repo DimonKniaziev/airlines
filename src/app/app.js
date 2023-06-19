@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "../header";
+import MainPage from "../main-page";
 import TourListPage from "../tour-list-page";
 import OrderListPage from "../order-list-page";
 import MyOrdersPage from "../my-orders-page";
@@ -19,6 +20,7 @@ const App = () => {
       <BrowserRouter>
         <Header/>
         <Routes>
+          <Route path="/" element={<MainPage/>}/>
           <Route path="/tours" element={<TourListPage/>}/>
           <Route path="/orders-list" element={<OrderListPage/>}/>
           <Route path="/my-orders" element={<MyOrdersPage/>}/>
