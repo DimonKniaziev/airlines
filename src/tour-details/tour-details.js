@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useSearchHistory } from "../store";
+import { useSearchHistory, useUsers } from "../store";
 import { useSearchParams, Link } from "react-router-dom";
 import { useTours, useTourFilter } from "../store";
 import Images from "../image-store";
@@ -8,6 +8,7 @@ import "./tour-details.css"
 const TourDetails = () => {
     let [searchParams] = useSearchParams();
     const setLastPage = useSearchHistory(state => state.setLastPage);
+    const autorizedUser = useUsers(state => state.autorizedUser);
     setLastPage(`/tour-details?id=${searchParams.get('id')}`);
     const [openPlacesModal, setOpenPlacesModal] = useState(false);
     const [openStartDateModal, setOpenStartDateModal] = useState(false);
@@ -48,7 +49,28 @@ const TourDetails = () => {
     const tourDurationFilter = useTourFilter((state) => state.tourDurationFilter);
     const transportFilter = useTourFilter((state) => state.transportFilter);
 
-    const tour = tours.find(tour => String(tour.id) === searchParams.get('id'));  
+    const tour = tours.find(tour => String(tour.id) === searchParams.get('id'));
+    
+    let orderFormButton = (
+        <React.Fragment>
+            <span id="no-login-alert">Увійдіть в систему, щоб зробити замовлення</span>
+            <Link to={'/login'}>
+                <div className="tour-details-order-button">                            
+                    <h2>Увіти</h2>
+                </div>
+            </Link>
+        </React.Fragment>
+    );
+
+    if (autorizedUser.role === 'client') {
+        orderFormButton = (            
+            <Link to={`/order-form?id=${tour.id}`}>
+                <div className="tour-details-order-button">                            
+                    <h2>ЗАМОВИТИ</h2>
+                </div>
+            </Link>
+        );
+    }
 
     return (
         <div className="tour-details-container">
@@ -124,11 +146,7 @@ const TourDetails = () => {
                             <span>Разом</span>
                             <h2>{placesNeedFilter * tour.price} ГРН</h2>
                         </div>
-                        <Link to={`/order-form?id=${tour.id}`}>
-                            <div className="tour-details-order-button">                            
-                                <h2>ЗАМОВИТИ</h2>
-                            </div>
-                        </Link>
+                        {orderFormButton}
                     </div>                
                 </div>
             </div>
