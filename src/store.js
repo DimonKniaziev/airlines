@@ -283,7 +283,10 @@ const useOrders = create(set => ({
             places: 5,
             totalPrice: 119892
         }
-    ]
+    ],
+    addOrder: (newOrder) => set(state => {
+        return {orders: [...state.orders, newOrder], maxId: state.maxId + 1};
+    })
 }))
 
 const useOrderFilter = create(set => ({
@@ -366,4 +369,10 @@ const useUsers = create(set=>({
     })
 }))
 
-export {useTours, useTourFilter, useOrders, useOrderFilter, useUsers};
+const useSearchHistory = create(set => ({
+    lastPage: '/',    
+    
+    setLastPage: (lastPage) => set({lastPage})    
+}))
+
+export {useTours, useTourFilter, useOrders, useOrderFilter, useUsers, useSearchHistory};
