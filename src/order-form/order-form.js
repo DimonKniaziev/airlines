@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTourFilter, useTours, useUsers, useOrders } from "../store";
 import { useSearchParams } from "react-router-dom";
 import "./order-form.css";
 
 const OrderForm = () => {    
-    let [searchParams] = useSearchParams();    
+    let [searchParams] = useSearchParams();
+    const [orderWasCreated, setOrderWasCreated] = useState(false);
     const placesNeedFilter = useTourFilter(state => state.placesNeedFilter);
     const startDateFilter = useTourFilter(state => state.startDateFilter);
     const tourDurationFilter = useTourFilter(state => state.tourDurationFilter);
@@ -67,6 +68,22 @@ const OrderForm = () => {
             tourists: tourists
         }
         addOrder(newOrder);
+        setOrderWasCreated('true');
+    }
+
+    if (orderWasCreated) {
+        return (
+            <div className="order-created-message">
+                <div>
+                    <h1>
+                        Ви успішно оформили замовлення на тур!
+                    </h1>
+                    <h2>
+                        Переглянути деталі замовлення ви можете у вкладці "Мої замовлення"
+                    </h2>
+                </div>
+            </div>
+        );
     }
 
     return (

@@ -53,7 +53,7 @@ const TourDetails = () => {
     
     let orderFormButton = (
         <React.Fragment>
-            <span id="no-login-alert">Увійдіть в систему, щоб зробити замовлення</span>
+            <span>Увійдіть в систему, щоб зробити замовлення</span>
             <Link to={'/login'}>
                 <div className="tour-details-order-button">                            
                     <h2>Увіти</h2>
@@ -63,13 +63,27 @@ const TourDetails = () => {
     );
 
     if (autorizedUser.role === 'client') {
-        orderFormButton = (            
-            <Link to={`/order-form?id=${tour.id}`}>
-                <div className="tour-details-order-button">                            
-                    <h2>ЗАМОВИТИ</h2>
-                </div>
-            </Link>
-        );
+        if (placesNeedFilter === '' || startDateFilter === '' || tourDurationFilter === '' || transportFilter === '') {
+            orderFormButton = (            
+                <React.Fragment>
+                    <span>Заповніть таблицю, щоб зробити замовлення</span>
+                    {/* <Link to={''}> */}
+                        <div className="tour-details-order-button">                            
+                            <h2>Замовити</h2>
+                        </div>
+                    {/* </Link> */}
+                </React.Fragment>
+            );
+        }
+        else {
+            orderFormButton = (            
+                <Link to={`/order-form?id=${tour.id}`}>
+                    <div className="tour-details-order-button">                            
+                        <h2>ЗАМОВИТИ</h2>
+                    </div>
+                </Link>
+            );
+        }
     }
 
     return (
