@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import { Link } from "react-router-dom";
 import { useOrderFilter } from "../store";
 import "./order-filter.css";
 
@@ -22,15 +23,15 @@ const OrderFilter = () => {
                 <h3>Пошук Замовлень</h3>
             </div>
             <div id="filter-radio-container">
-                <input type="radio" id="radioLastYear" name="period" value="all" onChange={onSetPeriodFilter} defaultChecked={true}/>
+                <input type="radio" id="radioLastYear" name="period" value="all" onChange={onSetPeriodFilter} defaultChecked={periodFilter === 'all'}/>
                 <label htmlFor="radioLastYear">Всі</label>
             </div>
             <div id="filter-radio-container">
-                <input type="radio" id="radioLastMonth" name="period" value="lastMonth" onChange={onSetPeriodFilter}/>
+                <input type="radio" id="radioLastMonth" name="period" value="lastMonth" onChange={onSetPeriodFilter} defaultChecked={periodFilter === 'lastMonth'}/>
                 <label htmlFor="radioLastMonth">За останній місяць</label>
             </div>
             <div id="filter-radio-container">
-                <input type="radio" id="radioLastQarter" name="period" value="lastQuarter" onChange={onSetPeriodFilter}/>
+                <input type="radio" id="radioLastQarter" name="period" value="lastQuarter" onChange={onSetPeriodFilter} defaultChecked={periodFilter === 'lastQuarter'}/>
                 <label htmlFor="radioLastQarter">За останній квартал</label>
             </div>
 
@@ -38,22 +39,24 @@ const OrderFilter = () => {
                 <h3>Сортувати</h3>
             </div>
             <div id="filter-radio-container">
-                <input type="radio" id="radioHotel" name="sorting" value="hotel" onChange={onSetSortingTerm}/>
-                <label htmlFor="radioLastYear">За готелями</label>
+                <input type="radio" id="radioHotel" name="sorting" value="hotel" onChange={onSetSortingTerm} defaultChecked={sortingTerm === 'hotel'}/>
+                <label htmlFor="radioHotel">За готелями</label>
             </div>
             <div id="filter-radio-container">
-                <input type="radio" id="radioDate" name="sorting" value="date" onChange={onSetSortingTerm}/>
-                <label htmlFor="radioLastMonth">За датою</label>
+                <input type="radio" id="radioDate" name="sorting" value="date" onChange={onSetSortingTerm} defaultChecked={sortingTerm === 'date'}/>
+                <label htmlFor="radioDate">За датою</label>
             </div>
             <div id="filter-radio-container">
-                <input type="radio" id="radioPrice" name="sorting" value="price" onChange={onSetSortingTerm}/>
-                <label htmlFor="radioLastQarter">За ціною</label>
+                <input type="radio" id="radioPrice" name="sorting" value="price" onChange={onSetSortingTerm}  defaultChecked={sortingTerm === 'price'}/>
+                <label htmlFor="radioPrice">За ціною</label>
             </div>
             <div id="filter-radio-container">
-                <input type="radio" id="radioClient" name="sorting" value="client" onChange={onSetSortingTerm}/>
-                <label htmlFor="radioLastQarter">За клієнтами</label>
+                <input type="radio" id="radioClient" name="sorting" value="client" onChange={onSetSortingTerm}  defaultChecked={sortingTerm === 'client'}/>
+                <label htmlFor="radioClient">За клієнтами</label>
             </div>
-            <input type="button" value="Сформувати Звіт" id="report-create-button"/>
+            <Link to="/report-generator">
+                <input type="button" value="Сформувати Звіт" id="report-create-button"/>
+            </Link>
         </div>
     );
 }
