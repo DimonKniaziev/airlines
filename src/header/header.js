@@ -53,7 +53,6 @@ const Header = () => {
             <h2>
                 {roleLink}
             </h2>
-            {lastPage}
             {loginLink}
         </div>
     )
