@@ -11,6 +11,7 @@ import RegistrationForm from "../registration-form";
 import LoginForm from "../login-form";
 import UserDetails from "../user-details";
 import OrderDetails from "../order-details";
+import ReportGeneratorPage from "../report-generator-page";
 import "./app.css";
 
 const App = () => {
@@ -30,6 +31,7 @@ const App = () => {
           <Route path="/order-form" element={<OrderForm/>}/>
           <Route path="/order-details" element={<OrderDetails/>}/>
           <Route path="/user-details" element={<UserDetails/>}/>
+          <Route path="/report-generator" element={<ReportGeneratorPage/>}/>
         </Routes>
       </BrowserRouter>      
     </div>

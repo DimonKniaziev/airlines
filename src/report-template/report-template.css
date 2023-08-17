@@ -1,0 +1,19 @@
+.report-template-container {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;    
+    height: 645px;
+    overflow: auto;
+}
+.report-template {
+    width: 700px;
+    min-height: 800px;
+    border: solid;
+    border-color: black;
+    border-width: 5px;
+    padding: 20px;
+}
+
+.report-template-header {
+    text-align: center;
+}

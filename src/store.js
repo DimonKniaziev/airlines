@@ -7,7 +7,7 @@ const useTours = create(set => ({
             {
                 id: 1,
                 label: "Ikaros Zakyntos",
-                price: 19982,
+                price: 30000,
                 country: "Греція",
                 city: "о. Закінф",
                 transport: "Автобус",
@@ -18,7 +18,7 @@ const useTours = create(set => ({
             {
                 id: 2,
                 label: "Stavrolia Hotel",
-                price: 20454,
+                price: 30000,
                 country: "Греція",
                 city: "о. Закінф",
                 transport: "Автобус",
@@ -29,7 +29,7 @@ const useTours = create(set => ({
             {
                 id: 3,
                 label: "Zante Hotel",
-                price: 30353,
+                price: 30000,
                 country: "Греція",
                 city: "Халкідікі",
                 transport: "Літак",
@@ -40,7 +40,7 @@ const useTours = create(set => ({
             {
                 id: 4,                
                 label: "Dimitra Hotel",
-                price: 100000,
+                price: 30000,
                 country: "Греція",
                 city: "о. Закінф",
                 transport: "Літак",
@@ -51,7 +51,7 @@ const useTours = create(set => ({
             {
                 id: 5,
                 label: "Greek Hotel",
-                price: 28452,
+                price: 30000,
                 country: "Греція",
                 city: "Халкідікі",
                 transport: "Літак",
@@ -62,7 +62,7 @@ const useTours = create(set => ({
             {
                 id: 6,
                 label: "Dascalos Hotel",
-                price: 19124,
+                price: 30000,
                 country: "Греція",
                 city: "о. Корфу",
                 transport: "Літак",
@@ -73,7 +73,7 @@ const useTours = create(set => ({
             {
                 id: 7,
                 label: "Elena Studios",
-                price: 15721,
+                price: 30000,
                 country: "Греція",
                 city: "о. Лесбос",
                 transport: "Без Транспорту",
@@ -84,7 +84,7 @@ const useTours = create(set => ({
             {
                 id: 8,
                 label: "Irini Studios",
-                price: 33240,
+                price: 30000,
                 country: "Греція",
                 city: "о. Лесбос",
                 transport: "Автобус",
@@ -95,7 +95,7 @@ const useTours = create(set => ({
             {
                 id: 9,
                 label: "Kassandra Hotel",
-                price: 20567,
+                price: 30000,
                 country: "Греція",
                 city: "о. Родос",
                 transport: "Літак",
@@ -106,7 +106,7 @@ const useTours = create(set => ({
             {
                 id: 10,
                 label: "Para`S Sun Hotel",
-                price: 19982,
+                price: 30000,
                 country: "Греція",
                 city: "Халкідікі",
                 transport: "Літак",
@@ -117,7 +117,7 @@ const useTours = create(set => ({
             {
                 id: 11,
                 label: "En Armonia Hotel",
-                price: 33956,
+                price: 30000,
                 country: "Греція",
                 city: "о. Закінф",
                 transport: "Літак",
@@ -128,7 +128,7 @@ const useTours = create(set => ({
             {
                 id: 12,
                 label: "Evans Hotel",
-                price: 15956,
+                price: 30000,
                 country: "Греція",
                 city: "о. Родос",
                 transport: "Без Транспорту",
@@ -181,7 +181,7 @@ const useOrders = create(set => ({
             start: '2023-03-06',
             duration: 6,
             places: 2,
-            totalPrice: 1119892,
+            totalPrice: 60000,
             tourists: [
                 {
                     id: 1,
@@ -209,7 +209,7 @@ const useOrders = create(set => ({
             start: '2023-04-12',
             duration: 6,
             places: 3,
-            totalPrice: 124292,
+            totalPrice: 90000,
             tourists: [
                 {   
                     id: 1,
@@ -245,7 +245,7 @@ const useOrders = create(set => ({
             start: '2023-05-25',
             duration: 6,
             places: 4,
-            totalPrice: 234892,
+            totalPrice: 120000,
             tourists: [
                 {
                     id: 1,
@@ -289,7 +289,7 @@ const useOrders = create(set => ({
             start: '2023-06-20',
             duration: 6,
             places: 3,
-            totalPrice: 453892,
+            totalPrice: 90000,
             tourists: [                
                 {
                     id: 1,
@@ -325,7 +325,7 @@ const useOrders = create(set => ({
             start: '2023-07-16',
             duration: 6,
             places: 5,
-            totalPrice: 364892,
+            totalPrice: 150000,
             tourists: [
                 {
                     id: 1,
@@ -377,7 +377,7 @@ const useOrders = create(set => ({
             start: '2023-08-28',
             duration: 6,
             places: 3,
-            totalPrice: 88894,
+            totalPrice: 90000,
             tourists: [                
                 {
                     id: 1,
@@ -413,7 +413,7 @@ const useOrders = create(set => ({
             start: '2023-10-01',
             duration: 6,
             places: 1,
-            totalPrice: 119892,
+            totalPrice: 30000,
             tourists: [
                 {
                     id: 1,
@@ -433,7 +433,7 @@ const useOrders = create(set => ({
             start: '2022-02-06',
             duration: 6,
             places: 1,
-            totalPrice: 119892,
+            totalPrice: 30000,
             tourists: [
                 {
                     id: 2,
@@ -453,7 +453,7 @@ const useOrders = create(set => ({
             start: '2022-03-23',
             duration: 6,
             places: 3,
-            totalPrice: 119892,
+            totalPrice: 90000,
             tourists: [               
                 {
                     id: 1,
@@ -489,7 +489,7 @@ const useOrders = create(set => ({
             start: '2022-03-06',
             duration: 6,
             places: 2,
-            totalPrice: 123712,
+            totalPrice: 60000,
             tourists: [
                 {
                     id: 1,
@@ -517,7 +517,7 @@ const useOrders = create(set => ({
             start: '2022-03-06',
             duration: 6,
             places: 5,
-            totalPrice: 119892,
+            totalPrice: 150000,
             tourists: [
                 {
                     id: 1,
@@ -574,6 +574,14 @@ const useOrderFilter = create(set => ({
     
     setPeriodFilter: (periodFilter) => set({periodFilter}),
     setSortingTerm: (sortingTerm) => set({sortingTerm})    
+}))
+
+const useReportCategory = create(set => ({
+    reportPeriod: 'lastMonth',
+    reportCategory: 'allOrders',
+    
+    setReportPeriod: (reportPeriod) => set({reportPeriod}),
+    setReportCategory: (reportCategory) => set({reportCategory})    
 }))
 
 const useUsers = create(set=>({
@@ -654,4 +662,4 @@ const useSearchHistory = create(set => ({
     setLastPage: (lastPage) => set({lastPage})    
 }))
 
-export {useTours, useTourFilter, useOrders, useOrderFilter, useUsers, useSearchHistory};
+export {useTours, useTourFilter, useOrders, useOrderFilter, useReportCategory, useUsers, useSearchHistory};
