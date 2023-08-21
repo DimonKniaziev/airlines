@@ -1,9 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { useReportCategory } from "../store";
 import "./report-generator-filter.css";
 
-const ReportGeneratorFilter = () => {
+const ReportGeneratorFilter = ({onCreateReport}) => {
     const reportPeriod = useReportCategory((state) => state.reportPeriod);
     const reportCategory = useReportCategory((state) => state.reportCategory);
 
@@ -15,6 +14,9 @@ const ReportGeneratorFilter = () => {
     }
     const onSetReportCategory = (e) => {
         setReportCategory(e.target.value);
+    }
+    const handleCreateReport = () => {
+        onCreateReport();
     }
 
     return (
@@ -46,9 +48,7 @@ const ReportGeneratorFilter = () => {
                 <input type="radio" id="radioPopularHotel" name="category" value="popularHotel" onChange={onSetReportCategory} defaultChecked={reportCategory === 'popularHotel'}/>
                 <label htmlFor="radioPopularHotel">Найпопулярніший готель</label>
             </div>
-            <Link to="/report-generator">
-                <input type="button" value="CФОРМУВАТИ" id="report-create-button"/>
-            </Link>
+            <input type="button" value="CФОРМУВАТИ" id="report-create-button" onClick={handleCreateReport}/>
         </div>
     );
 }
