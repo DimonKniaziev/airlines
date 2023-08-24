@@ -1,6 +1,7 @@
 import React from "react";
 import { useReportCategory, useOrders, useTours } from "../store";
 import "./report-template.css";
+import "./report-template.scss"
 
 const ReportTemplate = () => {
     const reportPeriod = useReportCategory((state) => state.reportPeriod);
