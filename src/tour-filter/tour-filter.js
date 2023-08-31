@@ -30,62 +30,25 @@ const TourFilter = () => {
     const setMinPriceFilter = useTourFilter((state) => state.setMinPriceFilter);
     const setMaxPriceFilter = useTourFilter((state) => state.setMaxPriceFilter);
     
-    const onSetCountryFilter = (e) => {
-        setCountryFilter(e.target.value);
-    }
-    const onSetStartDateFilter = (e) => {
-        setStartDateFilter(e.target.value);
-    }
-    const onSetTourDurationFilter = (e) => {
-        setTourDurationFilter(e.target.value);
-    }
-    const onSetStarsFilter1 = (e) => {
-        setStarsFilter1(!starsFilter1);
-    }
-    const onSetStarsFilter2 = (e) => {
-        setStarsFilter2(!starsFilter2);
-    }
-    const onSetStarsFilter3 = (e) => {
-        setStarsFilter3(!starsFilter3);
-    }
-    const onSetStarsFilter4 = (e) => {
-        setStarsFilter4(!starsFilter4);
-    }
-    const onSetStarsFilter5 = (e) => {
-        setStarsFilter5(!starsFilter5);
-    }
-    const onSetPlacesNeedFilter = (e) => {
-        setPlacesNeedFilter(e.target.value);
-    }
-    const onSetTransportFilter = (e) => {
-        setTransportFilter(e.target.value);
-    }
-    const onSetMinPriceFilter = (e) => {
-        setMinPriceFilter(e.target.value);
-    }    
-    const onSetMaxPriceFilter = (e) => {
-        setMaxPriceFilter(e.target.value);
-    }    
-    
     return (
         <div className="tour-filter" background="red">
             <div className="filter-row-container">
                 <h3>ПОШУК ТУРУ</h3>
             </div>            
             <div className="filter-row-container">
-                <input type="text" placeholder="Країна" className="country-search" value={countryFilter} onChange={onSetCountryFilter}/>
+                <input type="text" placeholder="Країна" className="country-search" value={countryFilter} onChange={(e) => setCountryFilter(e.target.value)}/>
             </div>
             <div className="filter-row-container">
                 <span>Початок туру</span>
             </div>
             <div className="filter-row-container">
-                <input type="date" value={startDateFilter} onChange={onSetStartDateFilter}/>
+                <input type="date" value={startDateFilter} onChange={(e) => setStartDateFilter(e.target.value)}/>
             </div>
             <div className="filter-row-container">
                 <span>Тривалість туру</span>
             </div>
             <div className="filter-row-container">
-                <input type="number" value={tourDurationFilter} onChange={onSetTourDurationFilter} min={1}/>
+                <input type="number" value={tourDurationFilter} onChange={(e) => setTourDurationFilter(e.target.value)} min={1}/>
                 <span>Діб</span>
             </div>
             <div className="filter-row-container">
@@ -93,22 +56,22 @@ const TourFilter = () => {
             </div>
             <div className="filter-row-container">
                 <label className="new-checkbox">
-                    <input type='checkbox' value={0} checked={starsFilter1} onChange={onSetStarsFilter1}/>
+                    <input type='checkbox' value={0} checked={starsFilter1} onChange={(e) => setStarsFilter1(e.target.value)}/>
                     <span></span>
                 </label>
                 <label className="new-checkbox">
-                    <input type='checkbox' value={1} checked={starsFilter2} onChange={onSetStarsFilter2}/>
+                    <input type='checkbox' value={1} checked={starsFilter2} onChange={(e) => setStarsFilter2(e.target.value)}/>
                     <span></span>
                 </label>
                 <label className="new-checkbox">
-                    <input type='checkbox' value={2} checked={starsFilter3} onChange={onSetStarsFilter3}/>
+                    <input type='checkbox' value={2} checked={starsFilter3} onChange={(e) => setStarsFilter3(e.target.value)}/>
                     <span></span>
                 </label>
                 <label className="new-checkbox">
-                    <input type='checkbox' value={3} checked={starsFilter4} onChange={onSetStarsFilter4}/>
+                    <input type='checkbox' value={3} checked={starsFilter4} onChange={(e) => setStarsFilter4(e.target.value)}/>
                     <span></span>
                 </label><label className="new-checkbox">
-                    <input type='checkbox' value={4} checked={starsFilter5} onChange={onSetStarsFilter5}/>
+                    <input type='checkbox' value={4} checked={starsFilter5} onChange={(e) => setStarsFilter5(e.target.value)}/>
                     <span></span>
                 </label>
             </div>            
@@ -121,21 +84,21 @@ const TourFilter = () => {
             </div>
             <div className="filter-row-container">
                 <span>Кількість туристів</span>
-                <input type="number" value={placesNeedFilter} onChange={onSetPlacesNeedFilter} min={1}/><br/>
+                <input type="number" value={placesNeedFilter} onChange={(e) => setPlacesNeedFilter(e.target.value)} min={1}/><br/>
             </div>
             <div className="filter-row-container">
                 <span>Транспорт</span>
             </div>
             <div id="filter-radio-container">
-                <input type="radio" id="radioAirPlane" name="transport" value="Літак" onChange={onSetTransportFilter} checked={transportFilter === "Літак"}/>
+                <input type="radio" id="radioAirPlane" name="transport" value="Літак" onChange={(e) => setTransportFilter(e.target.value)} checked={transportFilter === "Літак"}/>
                 <label htmlFor="radioAirPlane">Літак</label>
             </div>
             <div id="filter-radio-container">
-                <input type="radio" id="radioBus" name="transport" value="Автобус" onChange={onSetTransportFilter} checked={transportFilter === "Автобус"}/>
+                <input type="radio" id="radioBus" name="transport" value="Автобус" onChange={(e) => setTransportFilter(e.target.value)} checked={transportFilter === "Автобус"}/>
                 <label htmlFor="radioBus">Автобус</label>
             </div>
             <div id="filter-radio-container">
-                <input type="radio" id="radioNoTransport" name="transport" value="Без Транспорту" onChange={onSetTransportFilter} checked={transportFilter === "Без Транспорту"}/>
+                <input type="radio" id="radioNoTransport" name="transport" value="Без Транспорту" onChange={(e) => setTransportFilter(e.target.value)} checked={transportFilter === "Без Транспорту"}/>
                 <label htmlFor="radioNoTransport">Без Транспорту</label>
             </div>
             <div className="filter-row-container">
@@ -143,9 +106,9 @@ const TourFilter = () => {
             </div>
             <div className="filter-row-container">
                 <span>Від</span>
-                <input type="number" id="price-input" value={minPriceFilter} onChange={onSetMinPriceFilter} max={maxPriceFilter}/>
+                <input type="number" id="price-input" value={minPriceFilter} onChange={(e) => setMinPriceFilter(e.target.value)} max={maxPriceFilter}/>
                 <span>До</span>
-                <input type="number" id="price-input" value={maxPriceFilter}  onChange={onSetMaxPriceFilter} min={minPriceFilter}/>  
+                <input type="number" id="price-input" value={maxPriceFilter}  onChange={(e) => setMaxPriceFilter(e.target.value)} min={minPriceFilter}/>  
             </div>            
         </div>
     );

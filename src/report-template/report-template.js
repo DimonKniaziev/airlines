@@ -1,18 +1,41 @@
-import React from "react";
-import { useReportCategory, useOrders, useTours } from "../store";
+import React, { useState, useEffect } from "react";
+import { useReportCategory } from "../store";
+import { getAllDataByName } from "../airlines-data-service";
 import "./report-template.css";
 import "./report-template.scss"
 
 const ReportTemplate = () => {
+    const [toursList, setToursList] = useState([]);
+    const [ordersList, setOrdersList] = useState([]);
+    const [onLoading, setOnLoading] = useState(true);
+
+    const loadData = async () => {
+        setToursList(await getAllDataByName("tours"));
+        setOrdersList(await getAllDataByName("orders"));
+        setOnLoading(false);        
+    }
+
+    useEffect(() => {
+        loadData()
+    }, [])
+
     const reportPeriod = useReportCategory((state) => state.reportPeriod);
-    const reportCategory = useReportCategory((state) => state.reportCategory);    
+    const reportCategory = useReportCategory((state) => state.reportCategory); 
 
-    const orders = useOrders((state) => state.orders);
+    if (onLoading) {
+        return (
+            <div className="loading-message-container">
+                <div>
+                    <h1>
+                        Завантажую...
+                    </h1>
+                </div>
+            </div>
+        );
+    }
 
-    const tours = useTours((state) => state.tours);
-
-    const ordersInfo = orders.map((item) => {
-        const tour = tours.find((tour) => tour.id === item.tour_id);
+    const ordersInfo = ordersList.map((item) => {
+        const tour = toursList.find((tour) => tour.id === item.tour_id);
         const hotel = tour.label;
         const country = tour.country;
         return {...item, hotel, country};

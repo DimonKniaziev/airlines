@@ -1,19 +1,50 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { useOrders, useUsers, useOrderFilter, useTours } from "../store";
+import React, { useState, useEffect } from "react";
+import { Link, Navigate } from "react-router-dom";
+import { useOrderFilter, useUsers } from "../store";
+import { getAllDataByName } from "../airlines-data-service";
 import "./order-list.css";
 
 const OrderList = () => {
-    const orders = useOrders((state) => state.orders);
-    const users = useUsers((state) => state.users);
-    const tours = useTours((state) => state.tours);
+    const [toursList, setToursList] = useState([]);
+    const [usersList, setUsersList] = useState([]);
+    const [ordersList, setOrdersList] = useState([]);
+    const [onLoading, setOnLoading] = useState(true);
+
+    const loadData = async () => {
+        setToursList(await getAllDataByName("tours"));
+        setUsersList(await getAllDataByName("users"));
+        setOrdersList(await getAllDataByName("orders"));
+        setOnLoading(false);        
+    }
+
+    useEffect(() => {
+        loadData()
+    }, [])
+
+    const autorizedUser = useUsers((state) => state.autorizedUser);
     const periodFilter = useOrderFilter((state) => state.periodFilter);
     const sortingTerm = useOrderFilter((state) => state.sortingTerm);
 
-    const orderItemsInfo = orders.map(order => {
-        const user = users.find(user => user.id === order.user_id);
-        const userName = `${user.surname} ${user.name.charAt(0)}. ${user.patronymic.charAt(0)}.`;
-        const tourLabel = tours.find(tour => tour.id === order.tour_id).label;
+    if (!autorizedUser.id) {
+        return <Navigate to="/"/>;
+    }
+
+    if (onLoading) {
+        return (
+            <div className="loading-message-container">
+                <div>
+                    <h1>
+                        Завантажую...
+                    </h1>
+                </div>
+            </div>
+        );
+    }
+
+    const orderItemsInfo = ordersList.map(order => {
+        const user = usersList.find(user => user.id === order.user_id);
+        const userName = `${user?.surname} ${user?.name.charAt(0)}. ${user?.patronymic.charAt(0)}.`;
+        const tourLabel = toursList.find(tour => tour.id === order.tour_id)?.label;
 
         return {...order, userName, tourLabel};
     });

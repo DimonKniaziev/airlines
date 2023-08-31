@@ -5,46 +5,14 @@ import "./user-details.css";
 
 const UserDetails = () => {
     const lastPage = useSearchHistory(state => state.lastPage);
-    const users = useUsers(state => state.users);
     const autorizeUser = useUsers(state => state.autorizeUser);
     const autorizedUser = useUsers(state => state.autorizedUser);
-    const addUser = useUsers(state => state.addUser);
 
-    const autorizedUserDetails = users.find(user => user.id === autorizedUser.id);
-    const [surname, setSurname] = useState(autorizedUserDetails? autorizedUserDetails.surname : '');
-    const [name, setName] = useState(autorizedUserDetails? autorizedUserDetails.name : '');
-    const [patronymic, setPatronymic] = useState(autorizedUserDetails? autorizedUserDetails.patronymic : '');
-    const [login, setLogin] = useState(autorizedUserDetails? autorizedUserDetails.login : '');
-    const [email, setEmail] = useState(autorizedUserDetails? autorizedUserDetails.email : '');
-    const [password, setPassword] = useState(autorizedUserDetails? autorizedUserDetails.password : '');
-    const [phone, setPhone] = useState(autorizedUserDetails? autorizedUserDetails.phone : '');
-    const [date, setDate] = useState(autorizedUserDetails? autorizedUserDetails.date : '');
-
-    const onSurnameChange = (e) => {
-        setSurname(e.target.value);
-    };
-    const onNameChange = (e) => {
-        setName(e.target.value);
-    };
-    const onPatronymicChange = (e) => {
-        setPatronymic(e.target.value);
-    };
-    const onLoginChange = (e) => {
-        setLogin(e.target.value);
-    };
-    const onEmailChange = (e) => {
-        setEmail(e.target.value);
-    };
-    const onPasswordChange = (e) => {
-        setPassword(e.target.value);
-    };
-    const onPhoneChange = (e) => {
-        setPhone(e.target.value);
-    };
-    const onDateChange = (e) => {
-        setDate(e.target.value);
-        console.log(e.target.value)
-    };
+    const [surname, setSurname] = useState(autorizedUser? autorizedUser.surname : '');
+    const [name, setName] = useState(autorizedUser? autorizedUser.name : '');
+    const [patronymic, setPatronymic] = useState(autorizedUser? autorizedUser.patronymic : '');
+    const [phoneNumber, setPhone] = useState(autorizedUser? autorizedUser.phoneNumber : '');
+    const [date, setDate] = useState(autorizedUser? autorizedUser.date : '');
 
     const onLogout = () => {
         autorizeUser({id: ''});
@@ -57,16 +25,13 @@ const UserDetails = () => {
             name,
             surname,
             patronymic,
-            login,
-            email,
-            password,
-            phone,
+            phoneNumber,
             date
         };
-        addUser(changedUser);
+        // addUser(changedUser);
     }
 
-    if (!autorizedUser.login) {        
+    if (!autorizedUser.user_id) {        
         return <Navigate to={lastPage}/>;
     }
 
@@ -82,39 +47,25 @@ const UserDetails = () => {
                 <div className="user-details-row">
                     <div className="user-details-field-container">
                         <span>Прізвище</span><br/>
-                        <input type="text" value={surname} onChange={onSurnameChange}/>
+                        <input type="text" value={surname} onChange={(e) => setSurname(e.target.value)}/>
                     </div>
                     <div className="user-details-field-container">
                         <span>Ім'я</span><br/>
-                        <input type="text" value={name} onChange={onNameChange}/>
+                        <input type="text" value={name} onChange={(e) => setName(e.target.value)}/>
                     </div>
                     <div className="user-details-field-container">
                         <span>По-батькові</span><br/>
-                        <input type="text" value={patronymic} onChange={onPatronymicChange}/>
-                    </div>
-                </div>
-                <div className="user-details-row">
-                    <div className="user-details-field-container">
-                        <span>Електрона пошта</span><br/>
-                        <input type="text" value={email} onChange={onEmailChange}/>
-                    </div>
-                    <div className="user-details-field-container">
-                        <span>Логін</span><br/>
-                        <input type="text" value={login} onChange={onLoginChange}/>
-                    </div>
-                    <div className="user-details-field-container">
-                        <span>Пароль</span><br/>
-                        <input type="password" value={password} onChange={onPasswordChange}/>
+                        <input type="text" value={patronymic} onChange={(e) => setPatronymic(e.target.value)}/>
                     </div>
                 </div>
                 <div className="user-details-row">
                     <div className="user-details-field-container">
                         <span>Номер телефону</span><br/>
-                        <input type="text" value={phone} onChange={onPhoneChange}/>
+                        <input type="text" value={phoneNumber} onChange={(e) => setPhone(e.target.value)}/>
                     </div>
                     <div className="user-details-field-container">
                         <span>Дата народження</span><br/>
-                        <input type="date" value={date} onChange={onDateChange}/>
+                        <input type="date" value={date} onChange={(e) => setDate(e.target.value)}/>
                     </div>
                 </div>
                 <div className="submit-button-container">

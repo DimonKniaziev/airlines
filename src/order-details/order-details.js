@@ -1,32 +1,57 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useSearchParams, Navigate } from "react-router-dom";
 import { useTours, useOrders, useUsers } from "../store";
+import { getAllDataByName } from "../airlines-data-service";
 import "./order-details.css"
 
 const OrderDetails = () => {
+    const [toursList, setToursList] = useState([]);
+    const [usersList, setUsersList] = useState([]);
+    const [ordersList, setOrdersList] = useState([]);
+    const [onLoading, setOnLoading] = useState(true);
+
+    const loadData = async () => {
+        setToursList(await getAllDataByName("tours"));
+        setUsersList(await getAllDataByName("users"));
+        setOrdersList(await getAllDataByName("orders"));
+        setOnLoading(false);        
+    }
+
+    useEffect(() => {
+        loadData()
+    }, [])
+
     let [searchParams] = useSearchParams();
     const autorizedUser = useUsers(state => state.autorizedUser);
 
-    const tours = useTours((state) => state.tours);
-    const users = useUsers((state) => state.users);
-    const orders = useOrders((state) => state.orders);
-    const order = orders.find(order => String(order.id) === searchParams.get('id'));
-    
+    if (onLoading) {
+        return (
+            <div className="loading-message-container">
+                <div>
+                    <h1>
+                        Завантажую...
+                    </h1>
+                </div>
+            </div>
+        );
+    }
+
+    const order = ordersList.find(order => String(order.id) === searchParams.get('id'));
     const getOrderDetails = () => {
-        const user = users.find(user => user.id === order.user_id);
-        const userName = `${user.surname} ${user.name} ${user.patronymic}`;
-        const tour = tours.find(tour => tour.id === order.tour_id);
-        const tourLabel = tour.label;
-        const tourTransport = tour.transport;
-        const tourCountry = tour.country;
-        const tourCity = tour.city;
+        const user = usersList.find(user => user.id === order.user_id);
+        const userName = `${user?.surname} ${user?.name} ${user?.patronymic}`;
+        const tour = toursList.find(tour => tour.id === order.tour_id);
+        const tourLabel = tour?.label;
+        const tourTransport = tour?.transport;
+        const tourCountry = tour?.country;
+        const tourCity = tour?.city;
 
         return {...order, userName, tourLabel, tourTransport, tourCountry, tourCity};
     }
 
     const orderDetails = getOrderDetails();
 
-    const touristsList = order.tourists.map((item) => {
+    const touristsList = order?.tourists.map((item) => {
         
         return (            
             <tr key={item.id}>
@@ -39,7 +64,7 @@ const OrderDetails = () => {
         );
     });
 
-    if (!autorizedUser.login) {
+    if (!autorizedUser.id) {
         return <Navigate to="/"/>
     }
 

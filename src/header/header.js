@@ -1,21 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useUsers, useSearchHistory } from "../store";
+import { useUsers } from "../store";
 import "./header.css"
 
 const Header = () => {
-    const users = useUsers(state => state.users);
     const autorizedUser = useUsers(state => state.autorizedUser);
-    const lastPage = useSearchHistory(state => state.lastPage);
-
-    const autorizedUserRole = autorizedUser.id ? users.find(user => user.id === autorizedUser.id).role : 'guest';
 
     let loginLink;
     
-    if (autorizedUser.id) {
+    if (autorizedUser.user_id) {
         loginLink = (
             <h3 className="logIn-link">
-                <Link to="/user-details">{users.find(user => user.id === autorizedUser.id).login}</Link>
+                <Link to="/user-details">{autorizedUser.email}</Link>
             </h3>
         );
     }
@@ -31,12 +27,12 @@ const Header = () => {
 
     let roleLink;
 
-    if (autorizedUserRole === 'admin') {
+    if (autorizedUser.role === 'admin') {
         roleLink = (
             <Link to="/orders-list">Замовлення</Link>
         );
     }
-    else if (autorizedUserRole === 'client') {
+    else if (autorizedUser.role === 'client') {
         roleLink = (
             <Link to="/my-orders">Мої замовлення</Link>
         );

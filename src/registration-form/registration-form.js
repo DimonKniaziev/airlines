@@ -1,80 +1,49 @@
 import React, {useState} from "react";
+import {getAuth, createUserWithEmailAndPassword} from "firebase/auth"
+import { collection, addDoc } from "firebase/firestore";
 import { Navigate } from "react-router-dom";
 import { useUsers, useSearchHistory } from "../store";
+import { addDataByName } from "../airlines-data-service";
 import "./registration-form.css";
+import dataBase from "../firebase";
+
 
 const RegistrationForm = () => {
   const lastPage = useSearchHistory(state => state.lastPage);
   const [surname, setSurname] = useState('');
   const [name, setName] = useState('');
   const [patronymic, setPatronymic] = useState('');
-  const [login, setLogin] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [phone, setPhone] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [date, setDate] = useState('');
 
-  const users = useUsers(state => state.users);
   const autorizedUser = useUsers(state => state.autorizedUser);
-  const addUser = useUsers(state => state.addUser);
-
-  const onSurnameChange = (e) => {
-    setSurname(e.target.value);
-  };
-  const onNameChange = (e) => {
-    setName(e.target.value);
-  };
-  const onPatronymicChange = (e) => {
-    setPatronymic(e.target.value);
-  };
-  const onLoginChange = (e) => {
-    setLogin(e.target.value);
-  };
-  const onEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
-  const onPasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
-  const onPhoneChange = (e) => {
-    setPhone(e.target.value);
-  };
-  const onDateChange = (e) => {
-    setDate(e.target.value);
-  };
+  const autorizeUser = useUsers(state => state.autorizeUser);
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const newUser = {
-      name,
-      surname,
-      patronymic,
-      login,
-      email,
-      password,
-      phone,
-      date
-    };
+    const auth = getAuth();
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(async({user}) => {
+        const newUser = {
+          user_id : user.uid,
+          email : user.email,
+          role : "client",
+          surname,
+          name,
+          patronymic,
+          phoneNumber,
+          date
+        };
 
-    const existLogin = users.find(user => user.login === newUser.login);
-    const existEmail = users.find(user => user.email === newUser.email);
-    const existPhone = users.find(user => user.phone === newUser.phone);
-    if (existLogin) {
-      alert('Вказаний логін вже зайнятий');
-    }
-    else if (existEmail) {
-      alert('Вказана електрона пошта вже зареєстрована');
-    }
-    else if (existPhone) {
-      alert('Вказаний телефон вже зареєстрований');
-    }
-    else {
-      alert('Ви успішно зареєструвалися!');
-      addUser(newUser);        
-    }
+        await addDataByName("users", newUser)
+        autorizeUser(newUser);
+      })
+      .catch(console.error)   
   }
 
-  if (autorizedUser.login) {
+  if (autorizedUser.user_id) {
     return <Navigate to={lastPage}/>;
   }
 
@@ -82,22 +51,20 @@ const RegistrationForm = () => {
     <form className="registration-form" onSubmit={onSubmit}>
       <h1>Реєстрація</h1>
       <span>Прізвище</span><br/>
-      <input type="text" required={true} value={surname} onChange={onSurnameChange}/><br/>
+      <input type="text" required={true} value={surname} onChange={(e) => setSurname(e.target.value)}/><br/>
       <span>Ім'я</span><br/>
-      <input type="text" required={true} value={name} onChange={onNameChange}/><br/>
+      <input type="text" required={true} value={name} onChange={(e) => setName(e.target.value)}/><br/>
       <span>По-батькові</span><br/>
-      <input type="text" required={true} value={patronymic} onChange={onPatronymicChange}/><br/>
-      <span>Логін</span><br/>
-      <input type="text" required={true} value={login} onChange={onLoginChange}/><br/>
+      <input type="text" required={true} value={patronymic} onChange={(e) => setPatronymic(e.target.value)}/><br/>
       <span>Електронна пошта</span><br/>
-      <input type="email" required={true} value={email} onChange={onEmailChange}/><br/>
+      <input type="email" required={true} value={email} onChange={(e) => setEmail(e.target.value)}/><br/>
       <span>Пароль</span><br/>
-      <input type="password" required={true} minLength={8} value={password} onChange={onPasswordChange}/><br/>
+      <input type="password" required={true} minLength={8} value={password} onChange={(e) => setPassword(e.target.value)}/><br/>
       <span>Номер телефону</span><br/>
-      <input type="tel" required={true} pattern="[0-9]{10}" value={phone} onChange={onPhoneChange}/><br/>
-      <span>Номер телефону</span><br/>
-      <input type="date" required={true} value={date} onChange={onDateChange}/><br/>
-      <input type="submit" value="РЕЄСТРАЦІЯ" id="submit-button"/>   
+      <input type="tel" required={true} pattern="[0-9]{10}" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)}/><br/>
+      <span>Дата народження</span><br/>
+      <input type="date" required={true} value={date} onChange={(e) => setDate(e.target.value)}/><br/>
+      <input type="submit" value="РЕЄСТРАЦІЯ" id="submit-button"/>
     </form>
   );
 }

@@ -12,6 +12,7 @@ import LoginForm from "../login-form";
 import UserDetails from "../user-details";
 import OrderDetails from "../order-details";
 import ReportGeneratorPage from "../report-generator-page";
+import "../firebase.js";
 import "./app.css";
 
 const App = () => {

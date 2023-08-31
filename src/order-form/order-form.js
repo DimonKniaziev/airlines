@@ -1,19 +1,28 @@
-import React, { useState } from "react";
-import { useTourFilter, useTours, useUsers, useOrders } from "../store";
+import React, { useState, useEffect } from "react";
+import { Navigate } from "react-router-dom";
+import { useTourFilter, useUsers, useOrders } from "../store";
 import { useSearchParams } from "react-router-dom";
+import { getAllDataByName, addDataByName } from "../airlines-data-service";
 import "./order-form.css";
 
 const OrderForm = () => {    
     let [searchParams] = useSearchParams();
+    const [tour, setTour] = useState([]);
     const [orderWasCreated, setOrderWasCreated] = useState(false);
+
+    const loadTour = async () => {
+        const tours = await getAllDataByName("tours")    
+        setTour(tours.find(tour => String(tour.id) === searchParams.get('id')));
+    }
+
+    useEffect(() => {
+        loadTour();
+    }, []);
+
     const placesNeedFilter = useTourFilter(state => state.placesNeedFilter);
     const startDateFilter = useTourFilter(state => state.startDateFilter);
     const tourDurationFilter = useTourFilter(state => state.tourDurationFilter);
-    const addOrder = useOrders(state => state.addOrder);
-    const tours = useTours(state => state.tours);
     const autorizedUser = useUsers(state => state.autorizedUser);
-
-    const tour = tours.find(tour => String(tour.id) === searchParams.get('id'));
 
     const repeatedFormItems = Array.from({ length: placesNeedFilter }, (_, index) => (
         <div className="order-form-item" key={index}>
@@ -67,8 +76,12 @@ const OrderForm = () => {
             totalPrice: tourists.length * tour.price,
             tourists: tourists
         }
-        addOrder(newOrder);
+        addDataByName("orders", newOrder);
         setOrderWasCreated('true');
+    }
+
+    if (!autorizedUser.id) {
+        return <Navigate to="/"/>;
     }
 
     if (orderWasCreated) {

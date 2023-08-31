@@ -1,24 +1,49 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link, Navigate } from "react-router-dom";
-import { useOrders, useUsers, useOrderFilter, useTours } from "../store";
+import { useUsers, useOrderFilter } from "../store";
+import { getAllDataByName } from "../airlines-data-service";
 import "./my-orders.css";
 
-const MyOrders = () => {    
-    const orders = useOrders((state) => state.orders);
-    const users = useUsers((state) => state.users);
+const MyOrders = () => {
+    const [toursList, setToursList] = useState([]);
+    const [ordersList, setOrdersList] = useState([]);
+    const [onLoading, setOnLoading] = useState(true);
+
+    const loadData = async () => {
+        setToursList(await getAllDataByName("tours"));
+        setOrdersList(await getAllDataByName("orders"));
+        setOnLoading(false);       
+    }
+
+    useEffect(() => {
+        loadData()
+    }, [])
+       
     const autorizedUser = useUsers((state) => state.autorizedUser);
-    const tours = useTours((state) => state.tours);
     const periodFilter = useOrderFilter((state) => state.periodFilter);
     const sortingTerm = useOrderFilter((state) => state.sortingTerm);
 
-    const myOrders = orders.filter(order => order.user_id === autorizedUser.id);
+    if (!autorizedUser.id) {
+        return <Navigate to="/"/>;
+    }
 
+    if (onLoading) {
+        return (
+            <div className="loading-message-container">
+                <div>
+                    <h1>
+                        Завантажую...
+                    </h1>
+                </div>
+            </div> 
+        )
+    }
+
+    const myOrders = ordersList.filter(order => order.user_id === autorizedUser.id);
     const orderItemsInfo = myOrders.map(order => {
-        const user = users.find(user => user.id === order.user_id);
-        const userName = `${user.surname} ${user.name.charAt(0)}. ${user.patronymic.charAt(0)}.`;
-        const tourLabel = tours.find(tour => tour.id === order.tour_id).label;
+        const tourLabel = toursList.find(tour => tour.id === order.tour_id).label;
 
-        return {...order, userName, tourLabel};
+        return {...order, tourLabel};
     });
 
     const filter = (items) => {
@@ -48,19 +73,14 @@ const MyOrders = () => {
         }
         else if (sortingTerm === "price") {
             filteredItems.sort((a, b) => b.totalPrice - a.totalPrice);
-        } 
-        else if (sortingTerm === "client"){
-            filteredItems.sort((a, b) => a.userName.localeCompare(b.userName));
         }
 
         return filteredItems;
     }
 
     const visibleItems = filter(orderItemsInfo);
-    if (!autorizedUser.login) {
-        return <Navigate to="/"/>;
-    }
-    else if (visibleItems.length < 1) {
+
+    if (visibleItems.length < 1) {
         return (
             <div className="no-tours-message-container">
                 <div>

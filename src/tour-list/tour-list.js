@@ -1,17 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import TourListItem from "../tour-list-item";
-import { useTours, useTourFilter } from "../store";
+import { useTourFilter } from "../store";
+import { getAllDataByName } from "../airlines-data-service";
 import "./tour-list.css"
 
 const TourList = () => {
-    const tours = useTours((state) => state.tours);
-
     const searchterm = useTourFilter((state) => state.searchTerm);
-
     const countryFilter = useTourFilter((state) => state.countryFilter);
-    const startDateFilter = useTourFilter((state) => state.startDateFilter);
-    const tourDurationFilter = useTourFilter((state) => state.tourDurationFilter);
     const starsFilter1 = useTourFilter((state) => state.starsFilter1);
     const starsFilter2 = useTourFilter((state) => state.starsFilter2);
     const starsFilter3 = useTourFilter((state) => state.starsFilter3);
@@ -20,8 +16,20 @@ const TourList = () => {
     const placesNeedFilter = useTourFilter((state) => state.placesNeedFilter); 
     const transportFilter = useTourFilter((state) => state.transportFilter); 
     const minPriceFilter = useTourFilter((state) => state.minPriceFilter);
-    const maxPriceFilter = useTourFilter((state) => state.maxPriceFilter);  
+    const maxPriceFilter = useTourFilter((state) => state.maxPriceFilter);
 
+    const [toursList, setToursList] = useState([]);
+    const [onLoading, setOnLoading] = useState(true);
+
+    const loadToursList = async () => {        
+        setToursList(await getAllDataByName("tours"));
+        setOnLoading(false);        
+    }
+
+    useEffect(() => {
+        loadToursList()
+    }, [])
+    
     const search = (items, searchterm) => {
         if (searchterm.length === 0) {
             return items;
@@ -57,14 +65,26 @@ const TourList = () => {
 
         if (maxPriceFilter) {
             filteredItems = filteredItems.filter((item) => item.price <= maxPriceFilter);
-        }    
+        }
 
         return filteredItems;
     }
 
-    const visibleItems = filter(search(tours, searchterm));
+    const visibleItems = filter(search(toursList, searchterm));
 
-    if (visibleItems.length < 1) {
+    if (onLoading) {
+        return (
+            <div className="loading-message-container">
+                <div>
+                    <h1>
+                        Завантажую...
+                    </h1>
+                </div>
+            </div>                  
+        );
+    }
+
+    else if (visibleItems.length < 1) {
         return (
             <div className="no-tours-message-container">
                 <div>

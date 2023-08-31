@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSearchHistory, useUsers } from "../store";
 import { useSearchParams, Link } from "react-router-dom";
-import { useTours, useTourFilter } from "../store";
-import Images from "../image-store";
+import { useTourFilter } from "../store";
+import { getAllDataByName, getImage} from "../airlines-data-service";
 import "./tour-details.css"
 
 const TourDetails = () => {
@@ -14,6 +14,10 @@ const TourDetails = () => {
     const [openStartDateModal, setOpenStartDateModal] = useState(false);
     const [openDurationModal, setOpenDurationModal] = useState(false);
     const [openTransportModal, setOpenTransportModal] = useState(false);
+    const [tour, setTour] = useState([]);
+    const [onLoading, setOnLoading] = useState(true);
+    const [image, setImage] = useState();
+
 
     const onOpenPlacesModal = () => {
         setOpenPlacesModal(true);
@@ -43,13 +47,35 @@ const TourDetails = () => {
         setOpenTransportModal(false);
     }
 
-    const tours = useTours((state) => state.tours);
+    const loadData = async () => {
+        const tours = await getAllDataByName("tours")
+        const tour = tours.find(tour => String(tour.id) === searchParams.get('id'));
+        setTour(tour);
+        const image = await getImage(tour.image_id)
+        setImage(image);
+        setOnLoading(false);
+    }
+
+    useEffect(() => {
+        loadData()
+    }, [])
+    
     const placesNeedFilter = useTourFilter((state) => state.placesNeedFilter);
     const startDateFilter = useTourFilter((state) => state.startDateFilter);
     const tourDurationFilter = useTourFilter((state) => state.tourDurationFilter);
     const transportFilter = useTourFilter((state) => state.transportFilter);
 
-    const tour = tours.find(tour => String(tour.id) === searchParams.get('id'));
+    if(onLoading) {
+        return (
+            <div className="loading-message-container">
+                <div>
+                    <h1>
+                        Завантажую...
+                    </h1>
+                </div>
+            </div> 
+        )
+    }    
     
     let orderFormButton = (
         <React.Fragment>
@@ -67,11 +93,9 @@ const TourDetails = () => {
             orderFormButton = (            
                 <React.Fragment>
                     <span>Заповніть таблицю, щоб зробити замовлення</span>
-                    {/* <Link to={''}> */}
                         <div className="tour-details-order-button">                            
                             <h2>Замовити</h2>
                         </div>
-                    {/* </Link> */}
                 </React.Fragment>
             );
         }
@@ -90,7 +114,7 @@ const TourDetails = () => {
         <div className="tour-details-container">
             <div className="tour-details">
                 <div className="tour-info">
-                        <img src={Images[tour.image_id]} alt="hotel"/>
+                        <img src={image} alt="hotel"/>
                     <div className="tour-details-info-container">
                         <div className="tour-details-info-name-container">
                             <span className="tour-details-info-name">{tour.label}</span>
@@ -175,9 +199,7 @@ const TourDetails = () => {
 const PlacesNeedModalWindow = ({filterValue, opened, onCloseModalWindow}) => {
     const setPlacesNeedFilter = useTourFilter((state) => state.setPlacesNeedFilter);
     const [number, setNumber] = useState(filterValue);
-    const onNumberChange = (e) => {
-        setNumber(e.target.value);
-    };
+
     const onSubmit = (e) => {
         e.preventDefault();    
         setPlacesNeedFilter(number);
@@ -195,7 +217,7 @@ const PlacesNeedModalWindow = ({filterValue, opened, onCloseModalWindow}) => {
                     <div className="modal-window-top">
                         <span>Кількість туристів</span> <span className="close-modal-window-button" onClick={onCloseModal}>X</span>
                     </div>
-                    <input type="number" value={number} onChange={onNumberChange} min={1}/><br/>
+                    <input type="number" value={number} onChange={(e) => setNumber(e.target.value)} min={1}/><br/>
                     <input type="submit" id="modal-window-submit" value="Змінити"/>
                 </form>
             </div>
@@ -206,9 +228,7 @@ const PlacesNeedModalWindow = ({filterValue, opened, onCloseModalWindow}) => {
 const StartDateModalWindow = ({filterValue, opened, onCloseModalWindow}) => {
     const setStartDateFilter = useTourFilter((state) => state.setStartDateFilter);
     const [date, setDate] = useState(filterValue);
-    const onDateChange = (e) => {
-        setDate(e.target.value);
-    };
+
     const onSubmit = (e) => {
         e.preventDefault();    
         setStartDateFilter(date);
@@ -226,7 +246,7 @@ const StartDateModalWindow = ({filterValue, opened, onCloseModalWindow}) => {
                     <div className="modal-window-top">
                         <span>Дата відправлення</span> <span className="close-modal-window-button" onClick={onCloseModal}>X</span>
                     </div>
-                    <input type="date" value={date} onChange={onDateChange}/><br/>
+                    <input type="date" value={date} onChange={(e) => setDate(e.target.value)}/><br/>
                     <input type="submit" id="modal-window-submit" value="Змінити"/>
                 </form>
             </div>
@@ -237,9 +257,7 @@ const StartDateModalWindow = ({filterValue, opened, onCloseModalWindow}) => {
 const DurationModalWindow = ({filterValue, opened, onCloseModalWindow}) => {
     const setTourDurationFilter = useTourFilter((state) => state.setTourDurationFilter);
     const [number, setNumber] = useState(filterValue);
-    const onDateChange = (e) => {
-        setNumber(e.target.value);
-    };
+
     const onSubmit = (e) => {
         e.preventDefault();    
         setTourDurationFilter(number);
@@ -257,7 +275,7 @@ const DurationModalWindow = ({filterValue, opened, onCloseModalWindow}) => {
                     <div className="modal-window-top">
                         <span>Тривалість туру</span> <span className="close-modal-window-button" onClick={onCloseModal}>X</span>
                     </div>
-                    <input type="number" value={number} onChange={onDateChange} min="1"/><br/>
+                    <input type="number" value={number} onChange={(e) => setNumber(e.target.value)} min="1"/><br/>
                     <input type="submit" id="modal-window-submit" value="Змінити"/>
                 </form>
             </div>
@@ -268,9 +286,7 @@ const DurationModalWindow = ({filterValue, opened, onCloseModalWindow}) => {
 const TransportModalWindow = ({filterValue, opened, onCloseModalWindow}) => {
     const setTransportFilter = useTourFilter((state) => state.setTransportFilter);
     const [transport, setTransport] = useState(filterValue);
-    const onTransportChange = (e) => {
-        setTransport(e.target.value);
-    };
+
     const onSubmit = (e) => {
         e.preventDefault();    
         setTransportFilter(transport);
@@ -289,15 +305,15 @@ const TransportModalWindow = ({filterValue, opened, onCloseModalWindow}) => {
                         <span>Транспорт</span> <span className="close-modal-window-button" onClick={onCloseModal}>X</span>
                     </div>
                     <div id="transport-modal-radio-container">
-                        <input type="radio" id="radioAirPlane" name="transport" checked={transport === 'Літак'} value="Літак" onChange={onTransportChange}/>
+                        <input type="radio" id="radioAirPlane" name="transport" checked={transport === 'Літак'} value="Літак" onChange={(e) => setTransport(e.target.value)}/>
                         <label htmlFor="radioAirPlane">Літак</label>
                     </div>
                     <div id="transport-modal-radio-container">
-                        <input type="radio" id="radioBus" name="transport" checked={transport === 'Автобус'} value="Автобус" onChange={onTransportChange}/>
+                        <input type="radio" id="radioBus" name="transport" checked={transport === 'Автобус'} value="Автобус" onChange={(e) => setTransport(e.target.value)}/>
                         <label htmlFor="radioBus">Автобус</label>
                     </div>
                     <div id="transport-modal-radio-container">
-                        <input type="radio" id="radioNoTransport" name="transport" checked={transport === 'Без Транспорту'} value="Без Транспорту" onChange={onTransportChange}/>
+                        <input type="radio" id="radioNoTransport" name="transport" checked={transport === 'Без Транспорту'} value="Без Транспорту" onChange={(e) => setTransport(e.target.value)}/>
                         <label htmlFor="radioNoTransport">Без Транспорту</label>
                     </div>
                     <input type="submit" id="modal-window-submit" value="Змінити"/>
