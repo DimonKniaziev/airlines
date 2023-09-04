@@ -7,11 +7,7 @@ const TourFilter = () => {
     const countryFilter = useTourFilter((state) => state.countryFilter);
     const startDateFilter = useTourFilter((state) => state.startDateFilter);
     const tourDurationFilter = useTourFilter((state) => state.tourDurationFilter);
-    const starsFilter1 = useTourFilter((state) => state.starsFilter1);
-    const starsFilter2 = useTourFilter((state) => state.starsFilter2);
-    const starsFilter3 = useTourFilter((state) => state.starsFilter3);
-    const starsFilter4 = useTourFilter((state) => state.starsFilter4);
-    const starsFilter5 = useTourFilter((state) => state.starsFilter5);
+    const starsFilter = useTourFilter((state) => state.starsFilter);    
     const placesNeedFilter = useTourFilter((state) => state.placesNeedFilter);
     const minPriceFilter = useTourFilter((state) => state.minPriceFilter);
     const maxPriceFilter = useTourFilter((state) => state.maxPriceFilter);
@@ -20,15 +16,21 @@ const TourFilter = () => {
     const setCountryFilter = useTourFilter((state) => state.setCountryFilter);
     const setStartDateFilter = useTourFilter((state) => state.setStartDateFilter);
     const setTourDurationFilter = useTourFilter((state) => state.setTourDurationFilter);
-    const setStarsFilter1 = useTourFilter((state) => state.setStarsFilter1);
-    const setStarsFilter2 = useTourFilter((state) => state.setStarsFilter2);
-    const setStarsFilter3 = useTourFilter((state) => state.setStarsFilter3);
-    const setStarsFilter4 = useTourFilter((state) => state.setStarsFilter4);
-    const setStarsFilter5 = useTourFilter((state) => state.setStarsFilter5);
+    const setStarsFilter = useTourFilter((state) => state.setStarsFilter);
     const setPlacesNeedFilter = useTourFilter((state) => state.setPlacesNeedFilter);
     const setTransportFilter = useTourFilter((state) => state.setTransportFilter);
     const setMinPriceFilter = useTourFilter((state) => state.setMinPriceFilter);
     const setMaxPriceFilter = useTourFilter((state) => state.setMaxPriceFilter);
+
+    const handleStarsChange = (e) => {
+        const { value, checked } = e.target;
+
+        if (checked) {
+            setStarsFilter([...starsFilter, parseInt(value)]);
+        } else {          
+            setStarsFilter(starsFilter.filter(item => item !== parseInt(value)));
+        }
+    }
     
     return (
         <div className="tour-filter" background="red">
@@ -56,22 +58,22 @@ const TourFilter = () => {
             </div>
             <div className="filter-row-container">
                 <label className="new-checkbox">
-                    <input type='checkbox' value={0} checked={starsFilter1} onChange={(e) => setStarsFilter1(e.target.value)}/>
+                    <input type='checkbox' value={1} checked={starsFilter.includes(1)} onChange={handleStarsChange}/>
                     <span></span>
                 </label>
                 <label className="new-checkbox">
-                    <input type='checkbox' value={1} checked={starsFilter2} onChange={(e) => setStarsFilter2(e.target.value)}/>
+                    <input type='checkbox' value={2} checked={starsFilter.includes(2)} onChange={handleStarsChange}/>
                     <span></span>
                 </label>
                 <label className="new-checkbox">
-                    <input type='checkbox' value={2} checked={starsFilter3} onChange={(e) => setStarsFilter3(e.target.value)}/>
+                    <input type='checkbox' value={3} checked={starsFilter.includes(3)} onChange={handleStarsChange}/>
                     <span></span>
                 </label>
                 <label className="new-checkbox">
-                    <input type='checkbox' value={3} checked={starsFilter4} onChange={(e) => setStarsFilter4(e.target.value)}/>
+                    <input type='checkbox' value={4} checked={starsFilter.includes(4)} onChange={handleStarsChange}/>
                     <span></span>
                 </label><label className="new-checkbox">
-                    <input type='checkbox' value={4} checked={starsFilter5} onChange={(e) => setStarsFilter5(e.target.value)}/>
+                    <input type='checkbox' value={5} checked={starsFilter.includes(5)} onChange={handleStarsChange}/>
                     <span></span>
                 </label>
             </div>            
