@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useSearchHistory, useUsers } from "../store";
 import { useSearchParams, Link } from "react-router-dom";
 import { useTourFilter } from "../store";
-import { getAllDataByName, getImage} from "../airlines-data-service";
+import { doc } from "firebase/firestore";
+import { getFirestoreDatabyRef, getImage} from "../airlines-data-service";
+import { firestore } from "../firebase";
 import "./tour-details.css"
 
 const TourDetails = () => {
@@ -48,8 +50,7 @@ const TourDetails = () => {
     }
 
     const loadData = async () => {
-        const tours = await getAllDataByName("tours")
-        const tour = tours.find(tour => String(tour.id) === searchParams.get('id'));
+        const tour = await getFirestoreDatabyRef(doc(firestore, "tours", searchParams.get('id')));
         setTour(tour);
         const image = await getImage(tour.image_id)
         setImage(image);

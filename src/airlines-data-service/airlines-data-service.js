@@ -1,5 +1,5 @@
 import { firestore, storage } from "../firebase";
-import { collection, getDocs, addDoc } from "firebase/firestore";
+import { collection, getDocs, getDoc, addDoc } from "firebase/firestore";
 import { ref as storageRef, getDownloadURL } from "firebase/storage";
 
 const getAllDataByName = async (dataName) => {
@@ -48,4 +48,16 @@ const getFirestoreData = async (dataQuery) => {
     }
 }
 
-export { getAllDataByName, addFirestoreDataByName, getImage, getFirestoreData };
+const getFirestoreDatabyRef = async (dataRef) => {
+    try {
+        const doc = await getDoc(dataRef);
+        const id = doc.id;
+        const data = {id, ...doc.data()};
+
+        return data;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+export { getFirestoreDatabyRef, getAllDataByName, addFirestoreDataByName, getImage, getFirestoreData };
