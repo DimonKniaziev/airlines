@@ -2,10 +2,10 @@ import React, {useState} from "react";
 import { Navigate } from "react-router-dom";
 import { useUsers, useSearchHistory } from "../store";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { collection, getDocs } from "firebase/firestore";
-import { getAllDataByName } from "../airlines-data-service";
+import { collection, query, where } from "firebase/firestore";
+import { getFirestoreData } from "../airlines-data-service";
 import "./login-form.css";
-import dataBase from "../firebase";
+import { firestore } from "../firebase";
 
 const LoginForm = () => {
   const lastPage = useSearchHistory(state => state.lastPage);
@@ -19,9 +19,10 @@ const LoginForm = () => {
     const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password)
       .then(async({user}) => {
-        const usersInfo = await getAllDataByName("users");
-        const autorizedUserInfo = usersInfo.find(userInfo => userInfo.user_id === user.uid);
-        autorizeUser(autorizedUserInfo);        
+        let userQuery = query(collection(firestore, 'users'), where('user_id', '==', user.uid));
+        
+        const userInfo = await getFirestoreData(userQuery);
+        autorizeUser(userInfo[0]);
       })
       .catch(console.error)
   }

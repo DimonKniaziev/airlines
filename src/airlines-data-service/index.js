@@ -1,3 +1,3 @@
-import { getAllDataByName, addDataByName, getImage } from "./airlines-data-service";
+import { getAllDataByName, addFirestoreDataByName, getImage, getFirestoreData } from "./airlines-data-service";
 
-export { getAllDataByName, addDataByName, getImage };
+export { getAllDataByName, addFirestoreDataByName, getImage, getFirestoreData };

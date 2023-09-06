@@ -1,10 +1,10 @@
-import { dataBase, storage } from "../firebase";
+import { firestore, storage } from "../firebase";
 import { collection, getDocs, addDoc } from "firebase/firestore";
-import { ref, getDownloadURL } from "firebase/storage";
+import { ref as storageRef, getDownloadURL } from "firebase/storage";
 
 const getAllDataByName = async (dataName) => {
     try {
-        const {docs} = await getDocs(collection(dataBase, dataName));
+        const {docs} = await getDocs(collection(firestore, dataName));
 
         const data = (docs.map((doc) => {
             const id = doc.id;
@@ -18,18 +18,34 @@ const getAllDataByName = async (dataName) => {
     }
 }
 
-const addDataByName = async (dataName, newData) => {
+const addFirestoreDataByName = async (dataName, newData) => {
     try {
-        await addDoc(collection(dataBase, dataName), newData)
+        await addDoc(collection(firestore, dataName), newData)
     } catch (error) {
         console.error(error)
     }
 }
 
 const getImage = async (imageId) => {
-    const hotelImageRef = ref(storage, `hotel-images/hotel-image-${imageId}.png`);
+    const hotelImageRef = storageRef(storage, `hotel-images/hotel-image-${imageId}.png`);
     const image = await getDownloadURL(hotelImageRef);
     return image;
 }
 
-export { getAllDataByName, addDataByName, getImage };
+const getFirestoreData = async (dataQuery) => {
+    try {
+        const {docs} = await getDocs(dataQuery);
+
+        const data = (docs.map((doc) => {
+            const id = doc.id;
+            const docData = doc.data();
+            return {id, ...docData};
+        }))
+
+        return data;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+export { getAllDataByName, addFirestoreDataByName, getImage, getFirestoreData };

@@ -7,7 +7,6 @@ const TourListItem = ({label, price, stars, country, city, image_id, placesNeed,
 
     const loadImage = async () => {        
         setImage(await getImage(image_id));
-        console.log(image);
     }
 
     useEffect(() => {
