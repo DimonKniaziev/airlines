@@ -2,17 +2,15 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import TourListItem from "../tour-list-item";
 import { useTourFilter } from "../store";
-import { getAllDataByName } from "../airlines-data-service";
+import { getFirestoreData } from "../airlines-data-service";
+import { collection, query as firestoreQuery, where, or } from "firebase/firestore";
+import { firestore } from "../firebase";
 import "./tour-list.css"
 
 const TourList = () => {
-    const searchterm = useTourFilter((state) => state.searchTerm);
+    const searchTerm = useTourFilter((state) => state.searchTerm);
     const countryFilter = useTourFilter((state) => state.countryFilter);
-    const starsFilter1 = useTourFilter((state) => state.starsFilter1);
-    const starsFilter2 = useTourFilter((state) => state.starsFilter2);
-    const starsFilter3 = useTourFilter((state) => state.starsFilter3);
-    const starsFilter4 = useTourFilter((state) => state.starsFilter4);
-    const starsFilter5 = useTourFilter((state) => state.starsFilter5);
+    const starsFilter = useTourFilter((state) => state.starsFilter);
     const placesNeedFilter = useTourFilter((state) => state.placesNeedFilter); 
     const transportFilter = useTourFilter((state) => state.transportFilter); 
     const minPriceFilter = useTourFilter((state) => state.minPriceFilter);
@@ -22,55 +20,57 @@ const TourList = () => {
     const [onLoading, setOnLoading] = useState(true);
 
     const loadToursList = async () => {        
-        setToursList(await getAllDataByName("tours"));
-        setOnLoading(false);        
+        setToursList(await getFirestoreData(formToursQuerry()));
+        setOnLoading(false);
     }
 
     useEffect(() => {
-        loadToursList()
-    }, [])
+        setOnLoading(true);
+        loadToursList();
+    }, [searchTerm, countryFilter, starsFilter, transportFilter, minPriceFilter, maxPriceFilter])
     
-    const search = (items, searchterm) => {
-        if (searchterm.length === 0) {
-            return items;
-        }
-        
-        return items.filter((item) => {
-            return item.label.toLowerCase().indexOf(searchterm.toLowerCase()) > -1;
-        })
-    }
+    const formToursQuerry = () => {
+        let filteredQuery = firestoreQuery(collection(firestore, 'tours'));
 
-    const filter = (items) => {
-        let filteredItems = items;
+        if (searchTerm) {
+            filteredQuery = firestoreQuery(filteredQuery, where('label', '==', searchTerm));
+        }
 
         if (countryFilter) {
-            filteredItems = filteredItems.filter((item) => item.country.toLowerCase().indexOf(countryFilter.toLowerCase()) > -1);
+            filteredQuery = firestoreQuery(filteredQuery, where('country', '==', countryFilter));
         }
-        if (filteredItems.length > 0) {
-            filteredItems = filteredItems.filter((item) => (
-                item.stars === 1 && starsFilter1)||
-                (item.stars === 2 && starsFilter2)||
-                (item.stars === 3 && starsFilter3)||
-                (item.stars === 4 && starsFilter4)||
-                (item.stars === 5 && starsFilter5));
-        }        
 
+        filteredQuery = firestoreQuery(filteredQuery, where('stars', 'in', starsFilter));
+        
         if (transportFilter) {
-            filteredItems = filteredItems.filter((item) => item.transport === transportFilter);
+            filteredQuery = firestoreQuery(filteredQuery, where('transport', '==', transportFilter));
+        }
+        else {
+            filteredQuery = firestoreQuery(filteredQuery, or(
+                where('transport', '==', 'Літак'),
+                or(
+                    where('transport', '==', 'Автобус'),
+                    where('transport', '==', 'Без Транспорту')
+                )
+            ));
         }
 
         if (minPriceFilter) {
-            filteredItems = filteredItems.filter((item) => item.price >= minPriceFilter);
+            filteredQuery = firestoreQuery(filteredQuery, where('price', '>=', parseInt(minPriceFilter)));
+        }
+        else {
+            filteredQuery = firestoreQuery(filteredQuery, where('price', '>', 0));
         }
 
         if (maxPriceFilter) {
-            filteredItems = filteredItems.filter((item) => item.price <= maxPriceFilter);
+            filteredQuery = firestoreQuery(filteredQuery, where('price', '<=', parseInt(maxPriceFilter)));
+        }
+        else {
+            filteredQuery = firestoreQuery(filteredQuery, where('price', '<', 99999999999999999999999));
         }
 
-        return filteredItems;
+        return filteredQuery;
     }
-
-    const visibleItems = filter(search(toursList, searchterm));
 
     if (onLoading) {
         return (
@@ -84,7 +84,7 @@ const TourList = () => {
         );
     }
 
-    else if (visibleItems.length < 1) {
+    else if (toursList?.length < 1) {
         return (
             <div className="no-tours-message-container">
                 <div>
@@ -99,7 +99,7 @@ const TourList = () => {
         );
     }
     else {
-        const tourItems = visibleItems.map((item) => {
+        const tourItems = toursList?.map((item) => {
             const {id, ...itemProps} = item;
           
             return (

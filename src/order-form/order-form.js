@@ -1,28 +1,45 @@
 import React, { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
-import { useTourFilter, useUsers, useOrders } from "../store";
+import { useTourFilter, useUsers } from "../store";
 import { useSearchParams } from "react-router-dom";
-import { getAllDataByName, addDataByName } from "../airlines-data-service";
+import { doc } from "firebase/firestore";
+import { getFirestoreDatabyRef, addFirestoreDataByName } from "../airlines-data-service";
+import { firestore } from "../firebase";
 import "./order-form.css";
 
 const OrderForm = () => {    
     let [searchParams] = useSearchParams();
     const [tour, setTour] = useState([]);
     const [orderWasCreated, setOrderWasCreated] = useState(false);
-
-    const loadTour = async () => {
-        const tours = await getAllDataByName("tours")    
-        setTour(tours.find(tour => String(tour.id) === searchParams.get('id')));
-    }
-
-    useEffect(() => {
-        loadTour();
-    }, []);
+    const [onLoading, setOnLoading] = useState(true);
 
     const placesNeedFilter = useTourFilter(state => state.placesNeedFilter);
     const startDateFilter = useTourFilter(state => state.startDateFilter);
     const tourDurationFilter = useTourFilter(state => state.tourDurationFilter);
     const autorizedUser = useUsers(state => state.autorizedUser);
+
+    const loadData = async () => {
+        const tour = await getFirestoreDatabyRef(doc(firestore, "tours", searchParams.get('id')));
+        setTour(tour);
+        
+        setOnLoading(false);
+    }
+
+    useEffect(() => {
+        loadData();
+    }, []);
+
+    if(onLoading) {
+        return (
+            <div className="loading-message-container">
+                <div>
+                    <h1>
+                        Завантажую...
+                    </h1>
+                </div>
+            </div> 
+        )
+    }  
 
     const repeatedFormItems = Array.from({ length: placesNeedFilter }, (_, index) => (
         <div className="order-form-item" key={index}>
@@ -63,20 +80,20 @@ const OrderForm = () => {
             const name = document.getElementById(`name${i}`).value;
             const patronymic = document.getElementById(`patronymic${i}`).value;
             const phone = document.getElementById(`phone${i}`).value;
-            const date = document.getElementById(`date${i}`).value;
+            const date = new Date(document.getElementById(`date${i}`).value);
             tourists.push({id: i, surname, name, patronymic, phone, date});
         }
         const newOrder = {
             tour_id: tour.id,
             user_id: autorizedUser.id,
-            date: formatDate(new Date()),
-            start: startDateFilter,
+            date: new Date(),
+            start: new Date (startDateFilter),
             duration: tourDurationFilter,
             places: tourists.length,
             totalPrice: tourists.length * tour.price,
             tourists: tourists
         }
-        addDataByName("orders", newOrder);
+        addFirestoreDataByName("orders", newOrder);
         setOrderWasCreated('true');
     }
 
@@ -115,13 +132,5 @@ const OrderForm = () => {
         </div>
     );
 }
-
-function formatDate(date) {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    
-    return `${year}-${month}-${day}`;
-  }
 
 export default OrderForm;

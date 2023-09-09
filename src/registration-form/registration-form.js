@@ -1,12 +1,9 @@
 import React, {useState} from "react";
-import {getAuth, createUserWithEmailAndPassword} from "firebase/auth"
-import { collection, addDoc } from "firebase/firestore";
+import {getAuth, createUserWithEmailAndPassword} from "firebase/auth";
 import { Navigate } from "react-router-dom";
 import { useUsers, useSearchHistory } from "../store";
-import { addDataByName } from "../airlines-data-service";
+import { addFirestoreDataByName } from "../airlines-data-service";
 import "./registration-form.css";
-import dataBase from "../firebase";
-
 
 const RegistrationForm = () => {
   const lastPage = useSearchHistory(state => state.lastPage);
@@ -37,7 +34,7 @@ const RegistrationForm = () => {
           date
         };
 
-        await addDataByName("users", newUser)
+        await addFirestoreDataByName("users", newUser)
         autorizeUser(newUser);
       })
       .catch(console.error)   

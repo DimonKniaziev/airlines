@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useReportCategory } from "../store";
-import { getAllDataByName } from "../airlines-data-service";
+import { getFirestoreData, getFirestoreDatabyRef } from "../airlines-data-service";
+import { collection, query as firestoreQuery, where, and, doc } from "firebase/firestore";
+import { firestore } from "../firebase";
+import { Timestamp } from "firebase/firestore";
 import "./report-template.css";
 import "./report-template.scss"
 
@@ -9,18 +12,53 @@ const ReportTemplate = () => {
     const [ordersList, setOrdersList] = useState([]);
     const [onLoading, setOnLoading] = useState(true);
 
-    const loadData = async () => {
-        setToursList(await getAllDataByName("tours"));
-        setOrdersList(await getAllDataByName("orders"));
-        setOnLoading(false);        
+    const reportPeriod = useReportCategory((state) => state.reportPeriod);
+    const reportCategory = useReportCategory((state) => state.reportCategory); 
+
+    const loadOrdersData = async () => {
+        setOrdersList(await getFirestoreData(formOrdersQuery())
+            .then(async(list) => {
+                const tourIds = list.map((item) => {
+                    return item.tour_id;
+                });
+                setToursList(await getTours(tourIds));
+               
+                return list;
+            })
+        );
+        setOnLoading(false);
     }
 
     useEffect(() => {
-        loadData()
-    }, [])
+        setOnLoading(true);
+        loadOrdersData();
+    }, [reportPeriod])
 
-    const reportPeriod = useReportCategory((state) => state.reportPeriod);
-    const reportCategory = useReportCategory((state) => state.reportCategory); 
+    const getTours = async(Ids) => {
+        const tours = await Promise.all(Ids.map(async (id) => {
+            return await getFirestoreDatabyRef(doc(firestore, "tours", id));
+        }));
+
+        return tours;
+    }
+
+    const formOrdersQuery = () => {
+        let ordersQuery = firestoreQuery(collection(firestore, 'orders'));
+
+        if (reportPeriod === 'lastMonth') {            
+            const today = new Date();
+            const lastMonthDate = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`;
+
+            ordersQuery = firestoreQuery(ordersQuery, and(where('date', '>', Timestamp.fromDate(new Date(lastMonthDate))), where('date', '<', Timestamp.fromDate(new Date()))));
+        }
+        else if (reportPeriod === 'lastYear') {
+            const today = new Date();
+            const lastYearDate = `${today.getFullYear()-1}-${today.getMonth() + 1}-${today.getDate()}`;
+
+            ordersQuery = firestoreQuery(ordersQuery, and(where('date', '>', Timestamp.fromDate(new Date(lastYearDate))), where('date', '<', Timestamp.fromDate(new Date()))));
+        }
+        return ordersQuery;
+    }
 
     if (onLoading) {
         return (
@@ -63,24 +101,9 @@ const ReportTemplate = () => {
         </h4>
     )
 
-    const dateFilter = (items) => {
-        let filteredItems = items;
-
-        if (reportPeriod === "lastMonth") {
-            filteredItems = filteredItems.filter(item => new Date(item.date) <= new Date(currentDate) && new Date(item.date) >= new Date(lastMonthDate));
-        }
-        else if (reportPeriod === "lastYear") {
-            filteredItems = filteredItems.filter(item => new Date(item.date) <= new Date(currentDate) && new Date(item.date) >= new Date(lastYearDate));
-        }
-        
-        return filteredItems;
-    }
-
-    const visibleItems = dateFilter(ordersInfo);
-
     let hotelOrders = [];
 
-    visibleItems.map((item) => hotelOrders.find((order) => order.hotel === item.hotel) ? (
+    ordersInfo.map((item) => hotelOrders.find((order) => order.hotel === item.hotel) ? (
         hotelOrders[hotelOrders.findIndex(order => order.hotel === item.hotel)] = {
             ...hotelOrders[hotelOrders.findIndex(order => order.hotel === item.hotel)],
             ordersNumber: hotelOrders[hotelOrders.findIndex(order => order.hotel === item.hotel)].ordersNumber + 1,
@@ -96,7 +119,7 @@ const ReportTemplate = () => {
 
     let countryOrders = [];
 
-    visibleItems.map((item) => countryOrders.find((order) => order.country === item.country) ? (
+    ordersInfo.map((item) => countryOrders.find((order) => order.country === item.country) ? (
         countryOrders[countryOrders.findIndex(order => order.country === item.country)] = {
             ...countryOrders[countryOrders.findIndex(order => order.country === item.country)],
             ordersNumber: countryOrders[countryOrders.findIndex(order => order.country === item.country)].ordersNumber + 1,
@@ -132,12 +155,12 @@ const ReportTemplate = () => {
         )
     })
 
-    const overallCurrency = visibleItems.reduce((total, item) => total + item.totalPrice, 0);
+    const overallCurrency = ordersInfo.reduce((total, item) => total + item.totalPrice, 0);
     
     const templateBody = reportCategory === 'popularHotel' ? (
             <h4 className="report-template-body">
                 Загальна інформація: <br/>
-                - Загальна кількість замовлень: {visibleItems.length} <br/>
+                - Загальна кількість замовлень: {ordersInfo.length} <br/>
                 - Загальний обсяг продажів: {overallCurrency} грн <br/>
                 <br/>
                 Готелі: <br/>
@@ -157,7 +180,7 @@ const ReportTemplate = () => {
         return maxItem;
       }, hotelOrders[0]);
 
-    const ordersPercent = (100/visibleItems.length) * (mostPopularHotel ? mostPopularHotel.ordersNumber : 0);
+    const ordersPercent = (100/ordersInfo.length) * (mostPopularHotel ? mostPopularHotel.ordersNumber : 0);
 
     const templateFooter = reportCategory === 'popularHotel' ? (
         <h4 className="report-template-footer">
@@ -165,12 +188,12 @@ const ReportTemplate = () => {
         </h4> 
     ) : (
         <h4 className="report-template-footer">
-            Загальна кількість замовлень за останній рік: {visibleItems.length}. <br/>
+            Загальна кількість замовлень за останній рік: {ordersInfo.length}. <br/>
             Загальний обсяг продаж: {overallCurrency} грн.
         </h4>
     )
 
-    const templateContent = visibleItems.length > 0 ? (
+    const templateContent = ordersInfo.length > 0 ? (
         <React.Fragment>
             {templateBody}
             {templateFooter}

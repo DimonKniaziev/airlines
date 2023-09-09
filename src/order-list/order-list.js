@@ -1,29 +1,79 @@
 import React, { useState, useEffect } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useOrderFilter, useUsers } from "../store";
-import { getAllDataByName } from "../airlines-data-service";
+import { getFirestoreData, getFirestoreDatabyRef } from "../airlines-data-service";
+import { collection, query as firestoreQuery, where, and, doc } from "firebase/firestore";
+import { firestore } from "../firebase";
+import { Timestamp } from "firebase/firestore";
 import "./order-list.css";
 
 const OrderList = () => {
     const [toursList, setToursList] = useState([]);
     const [usersList, setUsersList] = useState([]);
     const [ordersList, setOrdersList] = useState([]);
-    const [onLoading, setOnLoading] = useState(true);
-
-    const loadData = async () => {
-        setToursList(await getAllDataByName("tours"));
-        setUsersList(await getAllDataByName("users"));
-        setOrdersList(await getAllDataByName("orders"));
-        setOnLoading(false);        
-    }
-
-    useEffect(() => {
-        loadData()
-    }, [])
+    const [onLoading, setOnLoading] = useState(true);    
 
     const autorizedUser = useUsers((state) => state.autorizedUser);
     const periodFilter = useOrderFilter((state) => state.periodFilter);
     const sortingTerm = useOrderFilter((state) => state.sortingTerm);
+
+    const loadOrdersData = async () => {
+        setOrdersList(await getFirestoreData(formOrdersQuery())
+            .then(async(list) => {
+                const tourIds = list.map((item) => {
+                    return item.tour_id;
+                });
+                setToursList(await getTours(tourIds));
+
+                const userIds = list.map((item) => {
+                    return item.user_id;
+                });
+                setUsersList(await getUsers(userIds));
+
+                return list;
+            })
+        );
+        setOnLoading(false);
+    }
+
+    useEffect(() => {
+        setOnLoading(true);
+        loadOrdersData();
+    }, [periodFilter])
+
+    const getTours = async(Ids) => {
+        const tours = await Promise.all(Ids.map(async (id) => {
+            return await getFirestoreDatabyRef(doc(firestore, "tours", id));
+        }));
+
+        return tours;
+    }
+
+    const getUsers = async(Ids) => {
+        const tours = await Promise.all(Ids.map(async (id) => {
+            return await getFirestoreDatabyRef(doc(firestore, "users", id));
+        }));
+
+        return tours;
+    }
+
+    const formOrdersQuery = () => {
+        let ordersQuery = firestoreQuery(collection(firestore, 'orders'));
+
+        if (periodFilter === 'lastMonth') {            
+            const today = new Date();
+            const lastMonthDate = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`;
+
+            ordersQuery = firestoreQuery(ordersQuery, and(where('date', '>', Timestamp.fromDate(new Date(lastMonthDate))), where('date', '<', Timestamp.fromDate(new Date()))));
+        }
+        else if (periodFilter === 'lastYear') {
+            const today = new Date();
+            const lastYearDate = `${today.getFullYear()-1}-${today.getMonth() + 1}-${today.getDate()}`;
+
+            ordersQuery = firestoreQuery(ordersQuery, and(where('date', '>', Timestamp.fromDate(new Date(lastYearDate))), where('date', '<', Timestamp.fromDate(new Date()))));
+        }
+        return ordersQuery;
+    }
 
     if (!autorizedUser.id) {
         return <Navigate to="/"/>;
@@ -49,44 +99,20 @@ const OrderList = () => {
         return {...order, userName, tourLabel};
     });
 
-    const filter = (items) => {
-        let filteredItems = items;
-
-        if (periodFilter === "lastMonth") {
-            const currentDate = new Date();
-            const currentMonth = currentDate.getMonth();
-            const currentYear = currentDate.getFullYear();
-            filteredItems = filteredItems.filter(item => new Date(item.date).getMonth() === currentMonth && new Date(item.date).getFullYear() === currentYear);
-        }
-        else if (periodFilter === "lastQuarter") {
-            const currentDate = new Date();
-            const currentQuarter = Math.floor((currentDate.getMonth() / 3));
-
-            filteredItems = filteredItems.filter(item => {
-                const quarter = Math.floor((new Date(item.date).getMonth() / 3));
-                return quarter === currentQuarter;
-            });
-        }
-
-        if (sortingTerm === "date") {
-            filteredItems.sort((a, b) => new Date(b.date) - new Date(a.date));
-        }
-        else if (sortingTerm === "hotel") {
-            filteredItems.sort((a, b) => a.tourLabel.localeCompare(b.tourLabel));
-        }
-        else if (sortingTerm === "price") {
-            filteredItems.sort((a, b) => b.totalPrice - a.totalPrice);
-        } 
-        else if (sortingTerm === "client"){
-            filteredItems.sort((a, b) => a.userName.localeCompare(b.userName));
-        }
-
-        return filteredItems;
+    if (sortingTerm === 'hotel') {
+        orderItemsInfo.sort((a, b) => a.tourLabel < b.tourLabel ? -1 : 1);
+    }
+    else if (sortingTerm === 'date') {
+        orderItemsInfo.sort((a, b) => a.date > b.date ? -1 : 1);
+    }
+    else if (sortingTerm === 'price') {
+        orderItemsInfo.sort((a, b) => a.totalPrice > b.totalPrice ? -1 : 1);
+    }
+    else if (sortingTerm === 'client') {
+        orderItemsInfo.sort((a, b) => a.userName > b.userName ? -1 : 1);
     }
 
-    const visibleItems = filter(orderItemsInfo);
-
-    if (visibleItems.length < 1) {
+    if (orderItemsInfo.length < 1) {
         return (
             <div className="no-tours-message-container">
                 <div>
@@ -101,10 +127,10 @@ const OrderList = () => {
         );
     }
     else {
-        const orderItems = visibleItems.map((order) => {       
+        const orderItems = orderItemsInfo.map((order) => {       
             return (
                 <tr key={order.id}>
-                    <td>{order.date}</td>
+                    <td>{formatDate(order.date)}</td>
                     <td>{order.places}</td>
                     <td>{order.userName}</td>
                     <td>{order.tourLabel}</td>
@@ -138,6 +164,15 @@ const OrderList = () => {
             </div>
         );
     }
+}
+
+const formatDate = (timeStamp) => {
+    const date = new Date(timeStamp.seconds * 1000 + timeStamp.nanoseconds / 1000000);
+    const year    = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
 }
 
 export default OrderList;

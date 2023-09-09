@@ -2,22 +2,6 @@ import { firestore, storage } from "../firebase";
 import { collection, getDocs, getDoc, addDoc } from "firebase/firestore";
 import { ref as storageRef, getDownloadURL } from "firebase/storage";
 
-const getAllDataByName = async (dataName) => {
-    try {
-        const {docs} = await getDocs(collection(firestore, dataName));
-
-        const data = (docs.map((doc) => {
-            const id = doc.id;
-            const docData = doc.data();
-            return {id, ...docData};
-        }))
-
-        return data;
-    } catch (error) {
-        console.error(error)
-    }
-}
-
 const addFirestoreDataByName = async (dataName, newData) => {
     try {
         await addDoc(collection(firestore, dataName), newData)
@@ -60,4 +44,4 @@ const getFirestoreDatabyRef = async (dataRef) => {
     }
 }
 
-export { getFirestoreDatabyRef, getAllDataByName, addFirestoreDataByName, getImage, getFirestoreData };
+export { getFirestoreDatabyRef, addFirestoreDataByName, getImage, getFirestoreData };

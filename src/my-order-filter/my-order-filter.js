@@ -30,8 +30,8 @@ const MyOrderFilter = () => {
                 <label htmlFor="radioLastMonth">За останній місяць</label>
             </div>
             <div id="filter-radio-container">
-                <input type="radio" id="radioLastQarter" name="period" value="lastQuarter" onChange={onSetPeriodFilter}/>
-                <label htmlFor="radioLastQarter">За останній квартал</label>
+                <input type="radio" id="radioLastQarter" name="period" value="lastYear" onChange={onSetPeriodFilter}/>
+                <label htmlFor="radioLastQarter">За останній рік</label>
             </div>
 
             <div className="filter-row-container">

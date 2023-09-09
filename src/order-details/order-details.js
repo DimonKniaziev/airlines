@@ -1,19 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams, Navigate } from "react-router-dom";
-import { useTours, useOrders, useUsers } from "../store";
-import { getAllDataByName } from "../airlines-data-service";
+import { useUsers } from "../store";
+import { doc } from "firebase/firestore";
+import { getFirestoreDatabyRef } from "../airlines-data-service";
+import { firestore } from "../firebase";
 import "./order-details.css"
 
 const OrderDetails = () => {
-    const [toursList, setToursList] = useState([]);
-    const [usersList, setUsersList] = useState([]);
-    const [ordersList, setOrdersList] = useState([]);
+    const [tour, setTour] = useState();
+    const [user, setUser] = useState();
+    const [order, setOrder] = useState();
     const [onLoading, setOnLoading] = useState(true);
 
     const loadData = async () => {
-        setToursList(await getAllDataByName("tours"));
-        setUsersList(await getAllDataByName("users"));
-        setOrdersList(await getAllDataByName("orders"));
+        const order = await getFirestoreDatabyRef(doc(firestore, "orders", searchParams.get('id')))
+            .then(async(order) => {
+                setTour(await getFirestoreDatabyRef(doc(firestore, "tours", order.tour_id)));
+                setUser(await getFirestoreDatabyRef(doc(firestore, "users", order.user_id)));
+                return order;
+            })
+        setOrder(order);
         setOnLoading(false);        
     }
 
@@ -36,11 +42,8 @@ const OrderDetails = () => {
         );
     }
 
-    const order = ordersList.find(order => String(order.id) === searchParams.get('id'));
     const getOrderDetails = () => {
-        const user = usersList.find(user => user.id === order.user_id);
         const userName = `${user?.surname} ${user?.name} ${user?.patronymic}`;
-        const tour = toursList.find(tour => tour.id === order.tour_id);
         const tourLabel = tour?.label;
         const tourTransport = tour?.transport;
         const tourCountry = tour?.country;
@@ -52,14 +55,13 @@ const OrderDetails = () => {
     const orderDetails = getOrderDetails();
 
     const touristsList = order?.tourists.map((item) => {
-        
         return (            
             <tr key={item.id}>
                 <td>{item.surname}</td>
                 <td>{item.name}</td>
                 <td>{item.patronymic}</td>
                 <td>{item.phone}</td>
-                <td>{item.date}</td>
+                <td>{formatDate(item.date)}</td>
             </tr>
         );
     });
@@ -91,7 +93,7 @@ const OrderDetails = () => {
                                         Дата відправлення
                                     </td>
                                     <td className="td2">
-                                        {orderDetails.start}
+                                        {formatDate(orderDetails.start)}
                                     </td>
                                 </tr>
                                 <tr>
@@ -178,6 +180,15 @@ const OrderDetails = () => {
             </div>
         </div>
     );
+}
+
+const formatDate = (timeStamp) => {
+    const date = new Date(timeStamp.seconds * 1000 + timeStamp.nanoseconds / 1000000);
+    const year    = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
 }
 
 export default OrderDetails;

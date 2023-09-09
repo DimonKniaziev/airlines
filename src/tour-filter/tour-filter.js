@@ -108,9 +108,9 @@ const TourFilter = () => {
             </div>
             <div className="filter-row-container">
                 <span>Від</span>
-                <input type="number" id="price-input" value={minPriceFilter} onChange={(e) => setMinPriceFilter(e.target.value)} max={maxPriceFilter}/>
+                <input type="number" id="price-input" value={minPriceFilter} onChange={(e) => setMinPriceFilter(e.target.value)} max={maxPriceFilter} min={0}/>
                 <span>До</span>
-                <input type="number" id="price-input" value={maxPriceFilter}  onChange={(e) => setMaxPriceFilter(e.target.value)} min={minPriceFilter}/>  
+                <input type="number" id="price-input" value={maxPriceFilter}  onChange={(e) => setMaxPriceFilter(e.target.value)} min={minPriceFilter ? minPriceFilter : 0}/>  
             </div>            
         </div>
     );
